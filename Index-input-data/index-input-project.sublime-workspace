@@ -1,0 +1,336 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"get_response"
+			],
+			[
+				"if",
+				"if\tIf Condition"
+			],
+			[
+				"twe",
+				"tweetId"
+			],
+			[
+				"id",
+				"tweetId"
+			],
+			[
+				"po",
+				"PostDiscardTweet"
+			],
+			[
+				"tweet",
+				"tweetId"
+			],
+			[
+				"j",
+				"json_data"
+			],
+			[
+				"a",
+				"adicionarBonus"
+			],
+			[
+				"tot",
+				"TotalizadorBonus"
+			],
+			[
+				"de",
+				"Desenvolvedor"
+			],
+			[
+				"numer",
+				"numeroIncremental"
+			],
+			[
+				"vla",
+				"valorTranferencia"
+			],
+			[
+				"for",
+				"For"
+			],
+			[
+				"S",
+				"String"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"panl",
+				"panel-title"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Volumes/SWAP/Downloads/isinp/NUMERACA.TXT",
+		"/Users/lpache/PythonEnvironment/Index-input-data/read_index_data.py",
+		"/Volumes/SWAP/Downloads/isinp/EMISSOR.TXT",
+		"/Volumes/SWAP/Downloads/demo/pom.xml",
+		"/Volumes/SWAP/Downloads/tabela.sql",
+		"/Volumes/SWAP/create-simbolic-links.txt",
+		"/Users/lpache/git/java-code-project/.gitignore",
+		"/Users/lpache/git/seleniumWD-example/test.txt",
+		"/Users/lpache/git/config/email.properties",
+		"/Users/lpache/git/weabroad/pom.xml",
+		"/Users/lpache/git/weabroad/rest-jaxrs/target/rest-jaxrs/WEB-INF/lib/send-mail-api-1.0-SNAPSHOT/META-INF/MANIFEST.MF",
+		"/Volumes/SWAP/Downloads/untitled folder/Repository of releases Community.txt",
+		"/System/Library/Frameworks/DiscRecording.framework/Versions/A/Headers/DRFSObject.h",
+		"/Volumes/SWAP/Downloads/generate-wadl-1.12/src/main/doc/wadl_documentation.xsl",
+		"/Users/lpache/git/count-days-core/pom.xml",
+		"/Users/lpache/git/job-days-quartz/pom.xml",
+		"/Users/lpache/JeeEnvironment/workspace(testProjectsStructure)/OtherCodes/src/com/javatraining/i/Threads.java",
+		"/Users/lpache/JeeEnvironment/workspace(testProjectsStructure)/OtherCodes/src/com/javatraining/i/StaticModifiers.java",
+		"/Users/lpache/JeeEnvironment/workspace-1.8(myApplications)/zJobTestApplications/ms-fc--backend-test/src/main/java/com/scmspain/MsFcTechTestApplication.java",
+		"/Users/lpache/JeeEnvironment/workspace-1.8(myApplications)/igschedule-user/build/test-results/test/TEST-com.pache.igschedule.controller.UserControllerTest.xml",
+		"/Users/lpache/JeeEnvironment/workspace-1.8(myApplications)/clouddrive/src/main/java/com/pache/clouddrive/fileaccess/FileVO.java",
+		"/Users/lpache/JeeEnvironment/workspaces/seam-example/seam-booking/pom.xml",
+		"/Users/lpache/JeeEnvironment/workspaces/Quartz-example/src/br/com/pache/quartz/SimpleMainQuartz.java",
+		"/Users/lpache/JeeEnvironment/workspaces/Quartz-example/src/br/com/pache/quartz/HelloJob.java",
+		"/Users/lpache/JeeEnvironment/workspaces/ig-json-parser/README.md",
+		"/Users/lpache/JeeEnvironment/workspace/igschedule-user/src/main/java/com/pache/igscheduleuser/controller/UserController.java",
+		"/Users/lpache/JeeEnvironment/workspace/JobTestApplications/ms-fc--backend-test/src/test/java/com/scmspain/configuration/TestConfiguration.java",
+		"/Users/lpache/JeeEnvironment/workspace/JobTestApplications/ms-fc--backend-test/src/test/java/com/scmspain/controller/TweetControllerTest.java",
+		"/Users/lpache/JeeEnvironment/workspace/JobTestApplications/ms-fc--backend-test/src/test/java/com/scmspain/entities/TweetTest.java",
+		"/Users/lpache/JeeEnvironment/workspace/igschedule-user/src/main/java/com/pache/igscheduleuser/exception/ExceptionControllerAdvice.java",
+		"/Users/lpache/JeeEnvironment/workspace-1.8/server-applicant-test-6/pom.xml",
+		"/Volumes/SWAP/Downloads/server-applicant-test-6/README.md",
+		"/Users/lpache/JeeEnvironment/workspace/ms-fc--backend-test/src/main/resources/application.properties",
+		"/Users/lpache/JeeEnvironment/workspace/ms-fc--backend-test/src/test/java/com/scmspain/configuration/TestConfiguration.java",
+		"/Users/lpache/JeeEnvironment/workspace/ms-fc--backend-test/src/main/java/com/scmspain/MsFcTechTestApplication.java",
+		"/Users/lpache/JeeEnvironment/workspace/ms-fc--backend-test/src/main/java/com/scmspain/configuration/TweetConfiguration.java",
+		"/Users/lpache/JeeEnvironment/workspace/ms-fc--backend-test/src/test/java/com/scmspain/controller/TweetControllerTest.java",
+		"/Users/lpache/JeeEnvironment/workspace-1.8/JavaTesteProject/src/main/java/Leonardo.java",
+		"/Volumes/SWAP/Dropbox/Interativa/scripts/SELECT_DASHBOARD_ANL_OFICIAL_ALL.sql",
+		"/Users/lpache/git/ms-fc--backend-test/LeonardoReleaseNotes.md",
+		"/Volumes/SWAP/00_mdiapps/09_scpa/trunk/03_dsgn_impl/04_sbs/01_web/SCPA-EJB/ejbModule/br/com/intercom/scpa/infra/administracao/analise/MetodoAnaliseRepositoryJPAImpl.java",
+		"/Volumes/SWAP/00_mdiapps/09_scpa/trunk/03_dsgn_impl/04_sbs/01_web/SCPA-JPA/src/br/com/intercom/scpa/ambiente/entity/Catalogo.java",
+		"/Volumes/SWAP/00_mdiapps/02_mdi/03_enterprise/trunk/03_dsgn_impl/03_implementacao/02_int/MDI-Core-API/src/br/com/intercom/mdi/global/util/MdiStringUtil.java",
+		"/Volumes/SWAP/Dropbox/Interativa/scripts/SELECT_AMS_CLT_ANL_BY_VIAGEM.sql",
+		"/Volumes/SWAP/00_mdiapps/02_mdi/03_enterprise/trunk/03_dsgn_impl/03_implementacao/02_int/MDI-JPA-EJB/ejbModule/br/com/intercom/mdi/persistence/entity/MdiEntityAbstract.java",
+		"/Users/lpache/JeeEnvironment/workspace/calculadora/src/Calculadora.java",
+		"/Volumes/SWAP/Dropbox/Sites.txt",
+		"/Users/lpache/JeeEnvironment/workspace/default-project-archetype/default-project-commons/default-project-commons-model/src/main/java/com/pache/defaultproject/commons/model/AbstractEntity.java",
+		"/Users/lpache/JeeEnvironment/workspace/default-project-archetype/default-project-commons/default-project-commons-model/src/main/java/com/pache/defaultproject/commons/model/EntityManagerProducer.java",
+		"/Users/lpache/JeeEnvironment/workspace/default-project-archetype/pom.xml",
+		"/Volumes/SWAP/MobileDevelopment/sources/ShoppingApp/app/src/main/res/values/colors.xml",
+		"/Volumes/SWAP/MobileDevelopment/sources/ShoppingApp/app/src/main/res/values/dimens.xml",
+		"/Volumes/SWAP/MobileDevelopment/sources/android-studio-ii-integracoes-e-recursos-master/projeto-final/app/src/main/res/values/dimens.xml",
+		"/Volumes/SWAP/MobileDevelopment/sources/android-studio-ii-integracoes-e-recursos-master/projeto-final/app/src/main/res/values/strings.xml",
+		"/Users/lpache/JeeEnvironment/Tools/jboss-as-7.1.1.Final/standalone/deployments/ShoppingCart.war/WEB-INF/web.xml",
+		"/Volumes/SWAP/MobileDevelopment/sources/android-studio-ii-integracoes-e-recursos-master/projeto-final/app/src/main/java/br/com/alura/agenda/EnviaAlunosTask.java",
+		"/Volumes/SWAP/MobileDevelopment/sources/android-studio-ii-integracoes-e-recursos-master/projeto-final/app/src/main/java/br/com/alura/agenda/ListaAlunosActivity.java",
+		"/Volumes/SWAP/MobileDevelopment/sources/android-studio-ii-integracoes-e-recursos-master/projeto-final/gradle.properties",
+		"/Users/lpache/JeeEnvironment/workspace/src/JavaMain.java",
+		"/Volumes/SWAP/Downloads/livraria 2/src/br/com/caelum/livraria/dao/Banco.java",
+		"/Volumes/SWAP/Downloads/livraria 2/src/br/com/caelum/livraria/dao/UsuarioDao.java",
+		"/Volumes/SWAP/Downloads/livraria 2/WebContent/WEB-INF/beans.xml",
+		"/Volumes/SWAP/Downloads/livraria 2/WebContent/WEB-INF/web.xml",
+		"/Volumes/SWAP/Downloads/livraria 2/WebContent/WEB-INF/faces-config.xml",
+		"/Users/lpache/JeeEnvironment/Tools/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxrs/main/module.xml",
+		"/Volumes/SWAP/Downloads/RESTfulDemoApplication/.classpath",
+		"/Volumes/SWAP/http:::siq.casan.com.br:9090:siq:",
+		"/Volumes/SWAP/Downloads/livraria/src/br/com/caelum/livraria/dao/UsuarioDao.java",
+		"/Volumes/SWAP/Downloads/livraria/src/br/com/caelum/livraria/dao/LivroDao.java",
+		"/Volumes/SWAP/Downloads/livraria/src/br/com/caelum/livraria/dao/Banco.java",
+		"/Volumes/SWAP/Downloads/livraria/src/br/com/caelum/livraria/dao/AutorDao.java",
+		"/Volumes/SWAP/Downloads/contas-jpa/src/br/com/caelum/financas/jpa/TesteJPA.java",
+		"/Users/lpache/JeeEnvironment/Tools/jboss-as-7.1.1.Final/modules/org/hsqldb/main/module.xml",
+		"/Volumes/SWAP/Downloads/contas-jpa/src/META-INF/persistence.xml",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/saida.txt",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/entrada.txt",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/Cliente.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/HelloWorld.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/ObjectOrientation.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/AccessModifiers.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/StaticModifiers.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/ObjectOrientationII.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/SistemaInterno.java",
+		"/Users/lpache/JeeEnvironment/workspace/OtherCodes/src/com/javatraining/i/Autenticavel.java",
+		"/Volumes/SWAP/Front-endDevelopment/sources/TopCasaSite/index.html",
+		"/Volumes/SWAP/Front-endDevelopment/sources/TopCasaSite/estilos.css",
+		"/Volumes/SWAP/Front-endDevelopment/Tools/bootstrap-boas-praticas-no-front-end-aula1/index.html",
+		"/Volumes/SWAP/Front-endDevelopment/sources/TopCasaSite/<html>.html"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 206.0
+	},
+	"output.find_results":
+	{
+		"height": 102.0
+	},
+	"pinned_build_system": "Packages/Java/JavaC.sublime-build",
+	"project": "index-input-project.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 234.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

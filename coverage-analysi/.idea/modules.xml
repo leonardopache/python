@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/mutation-counter/mutation-counter.iml" filepath="$PROJECT_DIR$/mutation-counter/mutation-counter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mutation-inspec.iml" filepath="$PROJECT_DIR$/mutation-inspec.iml" />
+      <module fileurl="file://$PROJECT_DIR$/unit-coverage/unit-coverage.iml" filepath="$PROJECT_DIR$/unit-coverage/unit-coverage.iml" />
+    </modules>
+  </component>
+</project>
