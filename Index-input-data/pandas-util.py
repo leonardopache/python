@@ -5,10 +5,9 @@ import pandas as pd
 def panda_load_tables():
 	#Brasilian Companies (https://quotes.wsj.com/company-list/country/brazil)
 
-	tables = pd.read_html("https://quotes.wsj.com/company-list/country/brazil",header=0, encoding="Latin-1")
-	print(tables[1]
+	tables = pd.read_html("https://www.infomoney.com.br/mercados/acoes-e-indices/noticia/7849586/as-23-acoes-que-podem-pagar-os-maiores-dividendos-de-2019",header=0, encoding="Latin-1")
+	print(tables[1])
 
 	#Brazilian Funds(http://infofundos.com.br/fundos)
-	tables, = pd.read_html("http://infofundos.com.br/fundos", header=0, index_col="CNPJ", encoding="Latin-1")
+	tables, = pd.read_html("http://infofundos.com.br/fundos", header=0, index_col="CNPJ")
 	print(tables.to_json(orient="records", date_format="iso"))
-
