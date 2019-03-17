@@ -1,4 +1,10 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+import simplejson as json
+
 from gSheetUtil import GSheetUtil
+from readPagesUtil import ReadPagesUtil
+
 
 # get defined cells from worksheet 'FixedData' in sheet opened in gspread
 def dataToUpdate(googleSheet):
@@ -10,24 +16,26 @@ def dataToUpdate(googleSheet):
 # get values for specific title from readPageUtil.py in mapper formatter
 # 'key':'value'
 def valuesToUpdate():
-    return {'Tesouro Prefixado 2025': '8%','Tesouro Prefixado 2024': '5.6%'}
+    rp = ReadPagesUtil();
+    return rp.loadIndexTable()
 
 # update defined cells with actual values
-def update(fieldsToUpdate, percent, worksheet):
+def update(fieldsToUpdate, valuesFromPage, worksheet):
     #loop in dataToUpdate
     #if dataToUpdate key == valuesToUpdate key -> update valuesToUpdate.value on dataToUpdate.value
-    print(fieldsToUpdate.items())
     for key in fieldsToUpdate.keys():
-        for value in percent.keys():
-            if(key == value):
+        for value in valuesFromPage:
+            if(key == value['Título']):
+                percent = value['Taxa de Rendimento (% a.a.)']/100
                 for x in fieldsToUpdate[key]:
-                    worksheet.update_acell(x, percent[value])
+                    worksheet.update_acell(x, str(percent)+"%")
 
 
 
 if __name__ == '__main__':
     gs = GSheetUtil().getSheet()
     worksheet = gs.worksheet("Dashboard")
-    update(dataToUpdate(gs), valuesToUpdate(), worksheet)
+    #print(tdJson)
+    update(dataToUpdate(gs), json.loads(valuesToUpdate()), worksheet)
     aux = worksheet.acell('H6').value
     print(aux)

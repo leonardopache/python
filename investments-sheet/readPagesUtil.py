@@ -7,16 +7,18 @@ import pprint
 
 from IPython.display import display_html
 
-TESOURO_DIRETO_TITULO_TAX = 'http://www.tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos'
 # list os constant links to consult values
+TESOURO_DIRETO_TITULO_TAX = 'http://www.tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos'
 
-# for specific site a specific method to load table and return
-# only the necessary information. Take care to avoid many page loads
-#
-def loadIndexTable():
-    dataframe = pd.read_html(TESOURO_DIRETO_TITULO_TAX, header=0, encoding="utf-8")[3]
-    print(dataframe)
+class ReadPagesUtil:
+
+    # for specific site a specific method to load table and return
+    # only the necessary information. Take care to avoid many page loads
+    #
+    def loadIndexTable(self):
+        dataframe = pd.read_html(TESOURO_DIRETO_TITULO_TAX, header=0, encoding="utf-8")[3]
+        return dataframe.dropna().to_json(orient='records', date_format='iso', force_ascii=False )
 
 
-if __name__ == '__main__':
-    loadIndexTable()
+    #if __name__ == '__main__':
+    #    loadIndexTable()
