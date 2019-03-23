@@ -7,11 +7,11 @@ def post_data(array):
   client = MongoClient('mongodb://localhost:27017/stock-mongodb')
   db = client['stock-mongodb']
   #print(db)
-  
+
   stock_data = {
     'date' : array[0] ,
-	  'action' : array[1] ,
-	  'isinp' : array[2] ,
+	'action' : array[1] ,
+	'isinp' : array[2] ,
     'emissor' :  array[3],
     'CFI' :  array[4],
     'description' :  array[5],
@@ -21,7 +21,7 @@ def post_data(array):
     'expiration_year' :  array[9],
     'value_nominal' :  array[12],
     'value_exercicio' :  array[13],
-    'indexator' : array[14] 
+    'indexator' : array[14]
   }
   #print(stock_data)
   result = db.stock.insert_one(stock_data)
@@ -38,5 +38,3 @@ if __name__ == '__main__':
   with open(filename,'r') as fh:
     for line in fh:
       split_line(line)
-  
-
