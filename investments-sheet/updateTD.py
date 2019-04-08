@@ -10,14 +10,14 @@ from readPagesUtil import ReadPagesUtil
 def dataToUpdate(googleSheet):
     #open worksheet FixedDate
     #load the values of cell that have to be updtated
-    cells = {'H5','H6','H7','H8'}
+    cells = {'H11'}
     return {'Tesouro Prefixado 2025': cells}
 
 # get values for specific title from readPageUtil.py in mapper formatter
 # 'key':'value'
 def valuesToUpdate():
     rp = ReadPagesUtil();
-    return rp.loadIndexTable()
+    return rp.loadPageTableTD()
 
 # update defined cells with actual values
 def update(fieldsToUpdate, valuesFromPage, worksheet):
