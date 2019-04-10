@@ -17,12 +17,14 @@ class ReadPagesUtil:
         #print(dataframe)
         dataframe.drop('Fundo',axis=1, inplace=True)
         dataframe.drop('Segmento',axis=1, inplace=True)
+        dataframe.fillna("")
         return dataframe
 
+    #load informations like codigo de negociacao (stock), actual value, CNPJ
     def loadFundDetailByCod(self, cod):
         dataframe = pd.read_html(FII_BMF_URL_BASE+FII_BMF_DETAIL_TAB.format(cod), encoding="utf-8")[0]
+        dataframe.fillna("")
         return dataframe
-        #load informations like codigo de negociacao (stock), actual value, CNPJ
 
 
     #if __name__ == '__main__':

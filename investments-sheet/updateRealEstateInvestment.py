@@ -5,7 +5,6 @@ import time
 from gSheetUtil import GSheetUtil
 from readPagesUtil import ReadPagesUtil
 
-
 # get values for specific title from readPageUtil.py in mapper formatter
 # 'key':'value'
 def valuesToUpdate():
@@ -24,25 +23,31 @@ def getFundDetail(dfRow):
     fundDetail["cnpj"] = dfFundPage[1][2]
     #fundDetail["page"] = dfFundPage[1][4]
     ##############################
-
     return fundDetail
+
+def insertFundDetailInGSheet(fundDetail, index):
+    for ticker in fundDetail['ticker'].split():
+        gsu.renewAccessToken()
+        worksheet.update_acell(f'A{index}', fundDetail['name'])
+        worksheet.update_acell(f'B{index}', fundDetail['cod'])
+        worksheet.update_acell(f'C{index}', ticker)
+        worksheet.update_acell(f'D{index}', fundDetail['cnpj'])
+        index += 1
+    time.sleep(10)
+
+
 # update defined cells with actual values
 def updateFunds(gsu, valuesFromPage, worksheet):
     #loop in dataToUpdate
     #if dataToUpdate key == valuesToUpdate key -> update valuesToUpdate.value on dataToUpdate.value
-    i = 1
+    index = 1
+    dic = []
     for row in valuesFromPage.iterrows():
-        #print(row[1])
         fundDetail = getFundDetail(row[1])
-        #print(fundDetail)
-        if fundDetail['ticker']:
-            gsu.renewAccessToken()
-            worksheet.update_acell(f'A{i}', fundDetail['name'])
-            worksheet.update_acell(f'B{i}', fundDetail['cod'])
-            worksheet.update_acell(f'C{i}', fundDetail['ticker'])
-            worksheet.update_acell(f'D{i}', fundDetail['cnpj'])
-            i += 1
-            time.sleep(10)
+        #insertFundDetailInGSheet(fundDetail)
+        dic.append(fundDetail)
+        print(dic)
+
 
 
 if __name__ == '__main__':
