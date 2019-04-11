@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #import io, os, sys
 import pandas as pd
-from constants import TESOURO_DIRETO_TITULO_TAX, FII_BMF_URL_BASE, FII_BMF_LIST_ALL, FII_BMF_DETAIL_TAB
+from constants import TESOURO_DIRETO_TITULO_TAX, FII_BMF_URL_BASE, FII_BMF_LIST_ALL, FII_BMF_EVENTS_TAB
 
 class ReadPagesUtil:
 
@@ -20,10 +20,11 @@ class ReadPagesUtil:
         dataframe.fillna("")
         return dataframe
 
-    #load informations like codigo de negociacao (stock), actual value, CNPJ
+    #load informations like codigo de negociacao (stock),CNPJ
+    #load informations like isin, DY, dividend date, dividend value
     def loadFundDetailByCod(self, cod):
-        dataframe = pd.read_html(FII_BMF_URL_BASE+FII_BMF_DETAIL_TAB.format(cod), encoding="utf-8")[0]
-        dataframe.fillna("")
+        dataframe = pd.read_html(FII_BMF_URL_BASE+FII_BMF_EVENTS_TAB.format(cod), header=0, encoding='UTF-8', decimal=',')
+        #dataframe.fillna("")
         return dataframe
 
 

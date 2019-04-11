@@ -13,7 +13,7 @@ def valuesToUpdate():
 
 def getFundDetail(dfRow):
     #print(dfRow[1])
-    dfFundPage = ReadPagesUtil().loadFundDetailByCod(dfRow[1]).fillna("")
+    dfFundPage = ReadPagesUtil().loadFundDetailByCod(dfRow[1])[0].fillna("")
     print(dfFundPage)
     # create class and initialize with this values
     fundDetail = {}
