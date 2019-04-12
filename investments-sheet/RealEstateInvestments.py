@@ -17,7 +17,7 @@ class RealEstateInvestments:
         self.funds = self.funds.loc[self.funds['VL_PATRIM_LIQ'] > 0]
 
  #####update Dataframe file from bmf
-        """
+        #"""
         df1 = ReadPagesUtil().loadPageTableFII()
 
         ticker = []
@@ -74,7 +74,7 @@ class RealEstateInvestments:
         df1['YEAR_DIV_AVERAGE'] = yearDividendAverage
 
         df1.to_csv("files/df3.csv", sep=";", index=False)
-        """
+        #"""
 ##########
         df1 = ReadCSVFileUtil.readFileCSV('df3.csv', "ALL")
         self.funds = pd.merge(self.funds, df1, left_on="CNPJ_FUNDO", right_on="CNPJ_FUNDO")
