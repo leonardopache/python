@@ -19,6 +19,7 @@ class RealEstateInvestments:
  #####update Dataframe file from bmf
         """
         df1 = ReadPagesUtil().loadPageTableFII()
+
         ticker = []
         cnpj = []
         cotas = []
@@ -78,7 +79,7 @@ class RealEstateInvestments:
         df1 = ReadCSVFileUtil.readFileCSV('df3.csv', "ALL")
         self.funds = pd.merge(self.funds, df1, left_on="CNPJ_FUNDO", right_on="CNPJ_FUNDO")
         print(self.funds)
-
+        df1.to_csv("files/funds.csv", sep=";", index=False)
 
 if __name__ == '__main__':
     #print(RealEstateInvestments().funds)

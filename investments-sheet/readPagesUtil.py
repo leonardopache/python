@@ -18,6 +18,7 @@ class ReadPagesUtil:
         dataframe.drop('Fundo',axis=1, inplace=True)
         dataframe.drop('Segmento',axis=1, inplace=True)
         dataframe.fillna("")
+        dataframe.columns = ['RAZAO_SOCIAL', 'CODIGO']
         return dataframe
 
     #load informations like codigo de negociacao (stock),CNPJ
@@ -28,5 +29,6 @@ class ReadPagesUtil:
         return dataframe
 
 
+    #pd.read_csv('NUMERACA.TXT', sep=',', index_col=0, header=None)
     #if __name__ == '__main__':
     #    loadIndexTable()
