@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from afa_market_data import REIT
+from market_data import REIT
 
 
 class MarketData:
@@ -14,7 +14,8 @@ class MarketData:
 
     # function to update daily information from REIT's
     def update_REIT_basic_info(self):
-        REIT.update_daily(self)
+        reit = REIT()
+        reit.update_daily()
 
 if __name__ == '__main__':
     md = MarketData()

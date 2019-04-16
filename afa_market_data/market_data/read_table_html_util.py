@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 #import io, os, sys
 import pandas as pd
+import pandas_datareader as pdr
+from datetime import datetime, timedelta
 from .constants import TESOURO_DIRETO_TITULO_TAX, FII_BMF_URL_BASE, FII_BMF_LIST_ALL, FII_BMF_EVENTS_TAB, YAHOO_FINANCE_TICKER_HISTORY
 
 
@@ -30,11 +32,24 @@ class ReadPagesUtil:
 
     def load_last_ticker_value(self, ticker):
         value = 0
-        list_tables = []
         try:
-            list_tables = pd.read_html(YAHOO_FINANCE_TICKER_HISTORY.format(ticker), header=0, encoding='utf-8', decimal=',')
-            value = list_tables[0]['Close*'].iloc[0]
-        except:
+            df = pdr.get_data_yahoo(ticker+'.sa', (datetime.now() - timedelta(1)).date(), datetime.now().date())
+            value = round(df['Adj Close'].iloc[0], 4)
+        except Exception as err:
             # nothing for now
-            print(list_tables)
+            print(err)
+
         return value
+            #list_tables = []
+            #try:
+            #    list_tables = pd.read_html(YAHOO_FINANCE_TICKER_HISTORY.format(ticker), header=0, encoding='utf-8', decimal=',')
+            #    value = list_tables[0]['Close*'].iloc[0]
+            #except:
+            #    # nothing for now
+            #    print(list_tables)
+            #return value
+
+
+#if __name__ == '__main__':
+#    rpu = ReadPagesUtil()
+#    print(rpu.load_last_ticker_value('ITSA4'))

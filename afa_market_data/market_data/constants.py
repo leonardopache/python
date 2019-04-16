@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 # list os constant links to consult values
-FILE_PATH = "files/"
+FILE_PATH = "market_data/files/"
 
 TESOURO_DIRETO_TITULO_TAX = 'http://www.tesouro.fazenda.gov.br/tesouro-direto-precos-e-taxas-dos-titulos'
 

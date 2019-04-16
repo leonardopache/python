@@ -5,7 +5,7 @@ import chardet
 from .constants import FILE_PATH
 
 
-class ReadCSVFileUtil:
+class ManageCSVFileUtil:
 
     def read_file_csv(filename, usecols, encoding):
 
@@ -20,3 +20,6 @@ class ReadCSVFileUtil:
                         sep=";", header=0)
         return pd.read_csv(FILE_PATH+filename, encoding=encoding,
                         sep=";", header=0, usecols=usecols)
+
+    def data_frame_to_csv(filename, data_frame, encoding):
+        data_frame.to_csv(FILE_PATH+filename, encoding=encoding, sep=";", index=False)
