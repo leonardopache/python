@@ -36,7 +36,6 @@ class ReadPagesUtil:
             df = pdr.get_data_yahoo(ticker+'.sa', (datetime.now() - timedelta(1)).date(), datetime.now().date())
             value = round(df['Adj Close'].iloc[0], 4)
         except Exception as err:
-            # nothing for now
             print(err)
 
         return value
