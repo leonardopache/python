@@ -3,3 +3,4 @@ pandas==0.24.1
 html5lib==1.0.1
 beautifulsoup4==4.7.1
 pandas-datareader==0.7.0
+fix-yahoo-finance==0.1.26

@@ -7,6 +7,7 @@ from .constants import FILE_PATH
 
 class ManageCSVFileUtil:
 
+    @staticmethod
     def read_file_csv(filename, usecols, encoding):
 
         if not encoding:
@@ -21,5 +22,6 @@ class ManageCSVFileUtil:
         return pd.read_csv(FILE_PATH+filename, encoding=encoding,
                         sep=";", header=0, usecols=usecols)
 
+    @staticmethod
     def data_frame_to_csv(filename, data_frame, encoding):
         data_frame.to_csv(FILE_PATH+filename, encoding=encoding, sep=";", index=False)
