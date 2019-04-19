@@ -12,7 +12,7 @@ class SeriesHistoricInterpreter:
         shares = []
         with open(file_path, 'r') as f:
             for line in f:
-                shares.append(SeriesHistoricInterpreter.split_position_valueDF(line))
+                shares.append(SeriesHistoricInterpreter.split_position_value(line))
         del shares[0]                   #first line is about header of the file
         del shares[len(shares)-1]       #las line is about footer of the file
         return shares
@@ -51,4 +51,5 @@ class SeriesHistoricInterpreter:
         return share
 
 if __name__ == '__main__':
-    print(SeriesHistoricInterpreter.read_file_path('isinp/COTAHIST_D12042019.TXT'))
+    list = SeriesHistoricInterpreter.read_file_path('isinp/COTAHIST_A2018.TXT')
+    print(list[len(list)-1])
