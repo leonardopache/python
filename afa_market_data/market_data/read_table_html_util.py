@@ -8,6 +8,20 @@ from .constants import TESOURO_DIRETO_TITULO_TAX, \
     FII_BMF_URL_BASE, FII_BMF_LIST_ALL, FII_BMF_EVENTS_TAB, \
     YAHOO_FINANCE_TICKER_HISTORY, FII_CVM_BASE, FII_CVM_DOCS_LIST
 
+def do_request(url):
+    try:
+        return requests.get(url)
+    except Exception as err:
+        print(err)
+        return False
+
+def read_html(url):
+    try:
+        data_frame = pd.read_html(url, header=None, encoding="utf-8", keep_default_na=False)
+    except Exception as err:
+        print(err)
+        return False
+
 
 class ReadPagesUtil:
 
@@ -47,19 +61,12 @@ class ReadPagesUtil:
             print(list_tables)
         return value
 
-    @staticmethod
-    def do_request(url):
-        try:
-            return requests.get(url)
-        except Exception as err:
-            print(err)
-            return False
 
     @staticmethod
     def load_html_page_all_docs(cnpj):
         loop = True
         while(loop):
-            response = ReadPagesUtil.do_request(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
+            response = do_request(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
             if response :
                 loop = False
 
@@ -85,7 +92,12 @@ class ReadPagesUtil:
 
     @staticmethod
     def load_tables_doc(link):
-        data_frame = pd.read_html(FII_CVM_BASE+link, header=None, encoding="utf-8", keep_default_na=False)
+        loop = True
+        while(loop):
+            data_frame = read_html(FII_CVM_BASE+link)
+            if data_frame :
+                loop = False
+
         return data_frame
 
 #if __name__ == '__main__':
