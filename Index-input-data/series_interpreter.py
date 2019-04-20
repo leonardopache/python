@@ -7,6 +7,8 @@
 import pandas as pd
 class SeriesHistoricInterpreter:
 
+
+    #TODO should return a DataFrame
     @staticmethod
     def read_file_path(file_path):
         shares = []
@@ -14,11 +16,11 @@ class SeriesHistoricInterpreter:
             for line in f:
                 shares.append(SeriesHistoricInterpreter.split_position_value(line))
         del shares[0]                   #first line is about header of the file
-        del shares[len(shares)-1]       #las line is about footer of the file
+        del shares[len(shares)-1]       #last line is about footer of the file
         return shares
 
     @staticmethod
-    def split_position_value(line):
+    def __split_position_value__(line):
         str = line
         share = {
             "TIPREG" : str[0:2],

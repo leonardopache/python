@@ -1,1 +1,1 @@
-from .update_app_data import REIT
+from .update_app_data import ManagerREIT

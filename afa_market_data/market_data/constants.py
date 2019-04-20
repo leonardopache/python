@@ -15,3 +15,5 @@ FII_BMF_LIST_ALL = 'FundosListados.aspx?tipoFundo=imobiliario&Idioma=pt-br'
 YAHOO_FINANCE_TICKER_HISTORY = 'https://finance.yahoo.com/quote/{0}.SA/history?p={0}.SA&.tsrc=fin-srch'
 
 FII_BMF_EVENTS_TAB = 'FundosListadosDetalhe.aspx?Sigla={}&tipoFundo=Imobiliario&aba=abaEventosCorporativos&idioma=en-us'
+FII_CVM_BASE = 'http://fnet.bmfbovespa.com.br/fnet/publico/'
+FII_CVM_DOCS_LIST = 'abrirGerenciadorDocumentosCVM?cnpjFundo={}'

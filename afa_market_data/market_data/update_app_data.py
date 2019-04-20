@@ -4,17 +4,56 @@
 Class responsible for keep the market information updated in internal data base
 '''
 import pandas as pd
-import numpy as np
+import re
+
 from .manage_csv_file_util import ManageCSVFileUtil
 from .read_table_html_util import ReadPagesUtil
 from .yahoo_finance_data import YahooFinance
 
 
-class REIT:
+class ManagerREIT:
 
-    def __init__(self):
-        print("REIT")
+    @staticmethod
+    def update_monthly():
+        funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv', ['TP_FUNDO', 'CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'], '')
+        funds_cad_df = funds_cad_df.loc[funds_cad_df['SIT'] == 'EM FUNCIONAMENTO NORMAL']
+        funds_cad_df = funds_cad_df.loc[funds_cad_df['TP_FUNDO'] == 'F.I.I.']
 
+        data = {'COMPANY_ID': [], 'QUOTA': [], 'ISIN': [],'NAME': [],
+                'DATE_INI': [], 'EXCLUSIVE': [], 'CLASS': [],
+                'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUIT': []}
+
+        for index, row in funds_cad_df.iterrows():
+            cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
+            print('=========================> ',cnpj)
+            df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
+            print(df_all_docs)
+            if not df_all_docs.empty:
+                doc_df = ReadPagesUtil.load_tables_doc(df_all_docs['Ações'][0])
+                table_1df = doc_df[0]
+                print(table_1df)
+                data['NAME'].append(table_1df[1][0])                                    #nome
+                data['DATE_INI'].append(table_1df[1][1])                                #data funcionamento
+                data['ISIN'].append(table_1df[1][2])                                    #ISIN
+                data['EXCLUSIVE'].append(True if (table_1df[1][3]) == 'Sim' else False) #exclusivo
+                data['CLASS'].append(table_1df[1][4])                                    #classificacao
+                data['REFERENCE'].append(table_1df[1][10])                                    #copentencia
+                data['COMPANY_ID'].append(table_1df[3][0])                                    #cnpj
+                data['TARGET'].append(table_1df[3][1])                                    #publico alvo
+                data['QUOTA'].append(re.sub('[^A-Za-z0-9]+', '', table_1df[3][2])[:-2])           #cotas
+
+                table_2df = doc_df[1]
+                print(table_2df)
+                data['OWNERS'].append(table_2df[1][1])                                       #qnt cotistas
+
+                table_3df = doc_df[2]
+                print(table_3df)
+                data['ASSETS'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][0]))[:-2])         #ativos
+                data['EQUIT'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][1]))[:-2])          #patrim_liq
+
+        reits_df = pd.DataFrame(data)
+        ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
+        return reits_df
 
     def update_fund_detail(self):
         reits = ReadPagesUtil.load_table_reit_bmf()
