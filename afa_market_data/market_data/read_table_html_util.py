@@ -17,7 +17,7 @@ def do_request(url):
 
 def read_html(url):
     try:
-        data_frame = pd.read_html(url, header=None, encoding="utf-8", keep_default_na=False)
+        return pd.read_html(url, header=None, encoding="utf-8", keep_default_na=False)
     except Exception as err:
         print(err)
         return False
@@ -95,7 +95,7 @@ class ReadPagesUtil:
         loop = True
         while(loop):
             data_frame = read_html(FII_CVM_BASE+link)
-            if data_frame :
+            if len(data_frame):
                 loop = False
 
         return data_frame
