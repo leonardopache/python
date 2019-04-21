@@ -5,14 +5,19 @@ Class responsible for keep the market information updated in internal data base
 '''
 import pandas as pd
 import re
-
 from .manage_csv_file_util import ManageCSVFileUtil
 from .read_table_html_util import ReadPagesUtil
 from .yahoo_finance_data import YahooFinance
+from .series_interpreter import SeriesInterpreter
+from datetime import datetime, timedelta
+from decimal import *
+
+
+def load_reit_values(isin, series):
+    return series.get_daily_value(isin), series.get_daily_volume(isin), series.get_ticker(isin)
 
 
 class ManagerREIT:
-
     @staticmethod
     def update_monthly():
         funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv', ['TP_FUNDO', 'CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'], '')
@@ -21,41 +26,85 @@ class ManagerREIT:
 
         data = {'COMPANY_ID': [], 'QUOTA': [], 'ISIN': [],'NAME': [],
                 'DATE_INI': [], 'EXCLUSIVE': [], 'CLASS': [],
-                'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUIT': []}
-
+                'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUITY': [],
+                'DY_LAST': [], 'PRICE_QUOTA_EQUITY': [] }
+        getcontext().prec = 2
         for index, row in funds_cad_df.iterrows():
             cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
             print('=========================> ',cnpj)
             df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
-            print(df_all_docs)
+
             if not df_all_docs.empty:
                 doc_df = ReadPagesUtil.load_tables_doc(df_all_docs['Ações'][0])
                 table_1df = doc_df[0]
-                print(table_1df)
-                data['NAME'].append(table_1df[1][0])                                    #nome
-                data['DATE_INI'].append(table_1df[1][1])                                #data funcionamento
-                data['ISIN'].append(table_1df[1][2])                                    #ISIN
-                data['EXCLUSIVE'].append(True if (table_1df[1][3]) == 'Sim' else False) #exclusivo
-                data['CLASS'].append(table_1df[1][4])                                    #classificacao
-                data['REFERENCE'].append(table_1df[1][10])                                    #copentencia
-                data['COMPANY_ID'].append(table_1df[3][0])                                    #cnpj
-                data['TARGET'].append(table_1df[3][1])                                    #publico alvo
-                data['QUOTA'].append(re.sub('[^A-Za-z0-9]+', '', table_1df[3][2])[:-2])           #cotas
+                #nome
+                data['NAME'].append(table_1df[1][0])
+                #data funcionamento
+                data['DATE_INI'].append(table_1df[1][1])
+                #ISIN
+                data['ISIN'].append(table_1df[1][2])
+                data['EXCLUSIVE'].append(True if (table_1df[1][3]) == 'Sim' else False)
+                data['CLASS'].append(table_1df[1][4])
+                data['REFERENCE'].append(table_1df[1][10])
+                data['COMPANY_ID'].append(table_1df[3][0])
+                data['TARGET'].append(table_1df[3][1])
+                data['QUOTA'].append(re.sub('[^A-Za-z0-9]+', '', table_1df[3][2])[:-2])
 
                 table_2df = doc_df[1]
-                print(table_2df)
-                data['OWNERS'].append(table_2df[1][1])                                       #qnt cotistas
+                #qnt cotistas
+                data['OWNERS'].append(re.sub('[^A-Za-z0-9]+', '', table_2df[1][1]))
 
                 table_3df = doc_df[2]
-                print(table_3df)
-                data['ASSETS'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][0]))[:-2])         #ativos
-                data['EQUIT'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][1]))[:-2])          #patrim_liq
+                #ativos
+                data['ASSETS'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][0]))[:-2])
+                #patrim_liq
+                data['EQUITY'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][1]))[:-2])
+                #DY Mensal
+                data['DY_LAST'].append((table_3df[2][8]))
+
+                data['PRICE_QUOTA_EQUITY'].append(Decimal(int(data['EQUITY'][-1]) / int(data['QUOTA'][-1])))
 
         reits_df = pd.DataFrame(data)
+        #reits_df['PRICE_QUOTA_EQUITY'] = round(reits_df['EQUITY'] / reits_df['QUOTA'], 2)
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
         return reits_df
 
-    def update_fund_detail(self):
+    # Update REIT information daily about the fund and update the BD
+    @staticmethod
+    def update_daily(file_name):
+
+        funds = ManageCSVFileUtil.read_file_csv('funds_cad.csv', 'ALL', '')
+        funds = funds[funds['ISIN'] != '']
+        #funds['PRICE_QUOTA_EQUITY'] = Decimal(funds['EQUITY'] / funds['QUOTA'])
+
+        series = SeriesInterpreter(file_name)
+
+        # iterar funds and search for daily value ticker volume
+        value = []
+        volume = []
+        ticker = []
+        for index, row in funds.iterrows():
+            value_a, volume_a, ticker_a = load_reit_values(row['ISIN'], series)
+            value.append(value_a)
+            volume.append(volume_a)
+            ticker.append(ticker_a)
+
+        # create new columns for PRICE_MARKET VOLUME TICKER
+        funds['PRICE_MARKET'] = value
+        funds['VOLUME'] = volume
+        funds['TICKER'] = ticker
+
+        # save in new file all information
+        # rename reits-today.cvs to reits-'str((datetime.now() - timedelta(1)).date()'
+        ManageCSVFileUtil.data_frame_to_csv('reits-today.csv', funds, 'ISO-8859-1')
+        return funds
+
+        #####update Dataframe file from bmf
+        #reits = self.update_fund_detail()
+        #funds = pd.merge(funds, reits, left_on="CNPJ_FUNDO", right_on="COMPANY_ID")
+        #funds['PRICE_COTA_PATRIM'] = round(funds['VL_PATRIM_LIQ'] / funds['QUOTAS'], 2)
+
+    '''def update_fund_detail(self):
         reits = ReadPagesUtil.load_table_reit_bmf()
         ticker = []
         company_id = []
@@ -127,22 +176,4 @@ class ManagerREIT:
 
         #ManageCSVFileUtil.data_frame_to_csv('df3.csv', reits, 'ISO-8859-1')
         return reits
-
-    # Update REIT information daily about the fund and update the BD
-    def update_daily(self):
-        df1 = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv', ['TP_FUNDO', 'CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'], '')
-        #melhorar e buscar informacao de patrimonio de outro lugar e nao ler um csv so por uma coluna
-        #df2 = ManageCSVFileUtil.read_file_csv('medidas_mes_fie_201903.csv', ['TP_FUNDO', 'CNPJ_FUNDO', 'VL_PATRIM_LIQ'], '')
-        #funds = pd.merge(df1, df2)
-        funds = df1
-        funds = funds.loc[funds['SIT'] != 'CANCELADA']
-        funds = funds.loc[funds['TP_FUNDO'] == 'F.I.I.']
-
-        #####update Dataframe file from bmf
-        reits = self.update_fund_detail()
-
-        funds = pd.merge(funds, reits, left_on="CNPJ_FUNDO", right_on="COMPANY_ID")
-        #funds['PRICE_COTA_PATRIM'] = round(funds['VL_PATRIM_LIQ'] / funds['QUOTAS'], 2)
-
-        ManageCSVFileUtil.data_frame_to_csv('funds.csv', funds, 'ISO-8859-1')
-        print(funds)
+    '''

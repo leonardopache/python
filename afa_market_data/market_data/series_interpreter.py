@@ -5,6 +5,7 @@
     Be careful with huge files!!!! just joking, this is Python
 '''
 import pandas as pd
+from .constants import FILE_PATH
 
 
 class SeriesInterpreter():
@@ -23,12 +24,12 @@ class SeriesInterpreter():
         self.shares['PREMAX'].append(line[69:80]+'.'+line[80:82])
         self.shares['PREMIN'].append(line[82:93]+'.'+line[93:95])
         self.shares['PREMED'].append(line[95:106]+'.'+line[106:108])
-        self.shares['PREULT'].append(line[108:119]+'.'+line[119:121])
+        self.shares['PREULT'].append(line[108:119]+','+line[119:121])
         self.shares['PREOFC'].append(line[121:132]+'.'+line[132:134])
         self.shares['PREOFV'].append(line[134:145]+'.'+line[145:147])
         self.shares['TOTNEG'].append(line[147:152])
         self.shares['QUATOT'].append(line[152:170])
-        self.shares['VOLTOT'].append(line[170:186]+'.'+line[186:188])
+        self.shares['VOLTOT'].append(line[170:186]+','+line[186:188])
         self.shares['PREEXE'].append(line[188:199]+'.'+line[199:201])
         self.shares['INDOPC'].append(line[201:202])
         self.shares['DATVEN'].append(line[202:210])
@@ -40,12 +41,10 @@ class SeriesInterpreter():
 
 
     #TODO should return a DataFrame
-    def read_file_path(self, file_path):
+    def read_file_path(self, file_name):
 
-        with open(file_path, 'r') as f:
-            count = 0
+        with open(FILE_PATH+file_name, 'r') as f:
             for line in f:
-                count +=1
                 self.split_position_value(line)
 
         data_frame = pd.DataFrame(self.shares)
@@ -55,6 +54,27 @@ class SeriesInterpreter():
 
     def get_series(self):
         return self.data_frame
+
+    def get_daily_value(self, isin):
+        value = self.data_frame[self.data_frame['CODISI'] == isin].PREULT
+        if not value.empty:
+            return value.item()
+        else:
+            return 0
+
+    def get_daily_volume(self, isin):
+        value = self.data_frame[self.data_frame['CODISI'] == isin].VOLTOT
+        if not value.empty:
+            return value.item()
+        else:
+            return 0
+
+    def get_ticker(self, isin):
+        value = self.data_frame[self.data_frame['CODISI'] == isin].CODNEG
+        if not value.empty:
+            return value.item()
+        else:
+            return ''
 
     def __init__(self, path_file):
         self.shares = {'TIPREG': [], 'DATA': [],
@@ -67,6 +87,9 @@ class SeriesInterpreter():
 
         self.data_frame = self.read_file_path(path_file)
 
-if __name__ == '__main__':
-    si = SeriesInterpreter('isinp/COTAHIST_D12042019.TXT')
-    print(si.get_series())
+
+'''if __name__ == '__main__':
+    si = SeriesInterpreter()
+    df = si.read_file_path('isinp/COTAHIST_D12042019.TXT')
+    print(df)
+'''

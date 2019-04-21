@@ -95,7 +95,7 @@ class ReadPagesUtil:
         loop = True
         while(loop):
             data_frame = read_html(FII_CVM_BASE+link)
-            if len(data_frame):
+            if data_frame:
                 loop = False
 
         return data_frame

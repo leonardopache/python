@@ -18,9 +18,9 @@ class ManageCSVFileUtil:
         print(encoding)
         if usecols == "ALL":
             return pd.read_csv(FILE_PATH+filename, encoding=encoding,
-                        sep=";", header=0)
+                        sep=";", header=0, keep_default_na=False)
         return pd.read_csv(FILE_PATH+filename, encoding=encoding,
-                        sep=";", header=0, usecols=usecols)
+                        sep=";", header=0, usecols=usecols, keep_default_na=False)
 
     @staticmethod
     def data_frame_to_csv(filename, data_frame, encoding):
