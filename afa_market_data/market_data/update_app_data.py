@@ -5,6 +5,7 @@ import re
 from .manage_csv_file_util import ManageCSVFileUtil
 from .read_table_html_util import ReadPagesUtil
 from .series_interpreter import SeriesInterpreter
+from datetime import datetime, timedelta
 
 
 def load_reit_values(isin, series):
@@ -96,7 +97,9 @@ class ManagerREIT:
         funds['TICKER'] = ticker
 
         # save in new file all information
-        # rename reits-today.cvs to reits-'str((datetime.now() - timedelta(1)).date()'
+        # rename reits-today.cvs to 'reits-'+str((datetime.now() - timedelta(1)).date()
+        ManageCSVFileUtil.rename_file('reits-today.csv', 'reits-'+str((datetime.now() - timedelta(1)).date())+'.csv')
+
         ManageCSVFileUtil.data_frame_to_csv('reits-today.csv', funds, 'ISO-8859-1')
         return funds
 

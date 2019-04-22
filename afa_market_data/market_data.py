@@ -1,7 +1,8 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from market_data import ManagerREIT, reit_custom
 from datetime import datetime
+from afa_market_data.market_data import ManagerREIT, reit_custom
+import os
 
 
 class MarketData:
@@ -9,12 +10,14 @@ class MarketData:
     def __init__(self):
         print("Market Data")
 
+    # execute function to download updated list of Real Estate Funds
+    def download_files_daily(self):
+        pass
+
     # execute monthly function to generate new file with cad information of Real Estate Funds
     @staticmethod
     def update_reit_cad_information():
         ManagerREIT.update_monthly()
-
-    # execute function to download updated list of Real Estate Funds
 
     # function to update daily information from REIT's
     @staticmethod
@@ -31,9 +34,10 @@ if __name__ == '__main__':
     print(datetime.now())
     try:
         # MarketData.update_reit_cad_information()
-        # MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
-        MarketData.run_reits_custom_analisys()
+        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
+        # MarketData.run_reits_custom_analisys()
+
+        print(datetime.now())
     except Exception as e:
         print(e)
         print('error  '+str(datetime.now()))
-    print(datetime.now())
