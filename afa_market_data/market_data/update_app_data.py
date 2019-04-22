@@ -5,7 +5,6 @@ import re
 from .manage_csv_file_util import ManageCSVFileUtil
 from .read_table_html_util import ReadPagesUtil
 from .series_interpreter import SeriesInterpreter
-from decimal import *
 
 
 def load_reit_values(isin, series):
@@ -28,7 +27,7 @@ class ManagerREIT:
                 'DATE_INI': [], 'EXCLUSIVE': [], 'CLASS': [],
                 'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUITY': [],
                 'DY_LAST': [], 'PRICE_QUOTA_EQUITY': []}
-        getcontext().prec = 2
+
         for index, row in funds_cad_df.iterrows():
             cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
             print('=========================> ', cnpj)
@@ -61,11 +60,12 @@ class ManagerREIT:
                 data['EQUITY'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][1]))[:-2])
                 # DY Mensal
                 data['DY_LAST'].append((table_3df[2][8]))
+
                 quota = int(data['QUOTA'][-1])
                 if quota > 0:
-                    data['PRICE_QUOTA_EQUITY'].append(Decimal(int(data['EQUITY'][-1]) / quota))
+                    data['PRICE_QUOTA_EQUITY'].append(round(int(data['EQUITY'][-1]) / quota, 2))
                 else:
-                    data['PRICE_QUOTA_EQUITY'].append(Decimal(0))
+                    data['PRICE_QUOTA_EQUITY'].append(round(0, 2))
 
         reits_df = pd.DataFrame(data)
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
@@ -77,11 +77,10 @@ class ManagerREIT:
 
         funds = ManageCSVFileUtil.read_file_csv('funds_cad.csv', 'ALL', '')
         funds = funds[funds['ISIN'] != '']
-        # funds['PRICE_QUOTA_EQUITY'] = Decimal(funds['EQUITY'] / funds['QUOTA'])
 
         series = SeriesInterpreter(file_name)
 
-        # iterar funds and search for daily value ticker volume
+        # iterate funds and search for daily value ticker volume
         value = []
         volume = []
         ticker = []
