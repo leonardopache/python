@@ -61,11 +61,13 @@ class ManagerREIT:
                 data['EQUITY'].append(re.sub('[^A-Za-z0-9]+', '', (table_3df[2][1]))[:-2])
                 # DY Mensal
                 data['DY_LAST'].append((table_3df[2][8]))
-
-                data['PRICE_QUOTA_EQUITY'].append(Decimal(int(data['EQUITY'][-1]) / int(data['QUOTA'][-1])))
+                quota = int(data['QUOTA'][-1])
+                if quota > 0:
+                    data['PRICE_QUOTA_EQUITY'].append(Decimal(int(data['EQUITY'][-1]) / quota))
+                else:
+                    data['PRICE_QUOTA_EQUITY'].append(Decimal(0))
 
         reits_df = pd.DataFrame(data)
-        # reits_df['PRICE_QUOTA_EQUITY'] = round(reits_df['EQUITY'] / reits_df['QUOTA'], 2)
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
         return reits_df
 
