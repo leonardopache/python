@@ -34,8 +34,8 @@ if __name__ == '__main__':
     print(datetime.now())
     try:
         # MarketData.update_reit_cad_information()
-        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
-        # MarketData.run_reits_custom_analisys()
+        # MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
+        MarketData.run_reits_custom_analisys()
 
         print(datetime.now())
     except Exception as e:
