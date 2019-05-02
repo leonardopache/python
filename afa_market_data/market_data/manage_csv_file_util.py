@@ -3,6 +3,7 @@
 import pandas as pd
 import chardet
 import os
+import requests
 from .constants import FILE_PATH
 
 
@@ -30,3 +31,10 @@ class ManageCSVFileUtil:
     @staticmethod
     def rename_file(source, target):
         os.rename(FILE_PATH+source, FILE_PATH+target)
+
+    @staticmethod
+    def download_file(url, name):
+        url = 'http://google.com/favicon.ico'
+        r = requests.get(url, allow_redirects=True)
+        open(FILE_PATH+name, 'wb').write(r.content)
+

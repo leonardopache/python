@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from afa_market_data.market_data import ManagerREIT, reit_custom
+from afa_market_data.market_data import ManagerREIT, reit_custom, ManageCSVFileUtil
 import os
 
 
@@ -11,8 +11,25 @@ class MarketData:
         print("Market Data")
 
     # execute function to download updated list of Real Estate Funds
-    def download_files_daily(self):
-        pass
+    @staticmethod
+    def download_files_daily():
+        # download csv Inf. Cad. FIE
+        url = 'http://dados.cvm.gov.br/dados/FI/CAD/DADOS/'
+
+
+        # scraping table with pandas
+
+        # df ordered by column last modification
+
+        # for the latest row download url + column name
+
+        # CSV file is downloaded and if valid file swap with actual inf_cadastral_fie.csv
+
+
+        # download .TXT day historic file has captcha find a way to download
+        # if url.find('/'):
+        #    name = url.rsplit('/', 1)[1]
+        # ManageCSVFileUtil.download_file(url, 'new.csv')
 
     # execute monthly function to generate new file with cad information of Real Estate Funds
     @staticmethod
@@ -35,7 +52,8 @@ if __name__ == '__main__':
     try:
         # MarketData.update_reit_cad_information()
         # MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
-        MarketData.run_reits_custom_analisys()
+        # MarketData.run_reits_custom_analisys()
+        MarketData.download_files_daily()
 
         print(datetime.now())
     except Exception as e:
