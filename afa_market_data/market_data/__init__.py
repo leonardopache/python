@@ -1,2 +1,2 @@
 from .update_app_data import ManagerREIT, ManageCSVFileUtil
-from .analisys import reit_custom
+from .analysis import reit_custom

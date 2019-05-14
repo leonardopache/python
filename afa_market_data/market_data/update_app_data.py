@@ -20,7 +20,7 @@ class ManagerREIT:
     @staticmethod
     def update_monthly():
         funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv',
-                                                       ['TP_FUNDO', 'CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'], '')
+                                                       ['TP_FUNDO', 'CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'])
         funds_cad_df = funds_cad_df.loc[funds_cad_df['SIT'] == 'EM FUNCIONAMENTO NORMAL']
         funds_cad_df = funds_cad_df.loc[funds_cad_df['TP_FUNDO'] == 'F.I.I.']
 
@@ -76,7 +76,7 @@ class ManagerREIT:
     @staticmethod
     def update_daily(file_name):
 
-        funds = ManageCSVFileUtil.read_file_csv('funds_cad.csv', 'ALL', '')
+        funds = ManageCSVFileUtil.read_file_csv('funds_cad.csv')
         funds = funds[funds['ISIN'] != '']
 
         series = SeriesInterpreter(file_name)

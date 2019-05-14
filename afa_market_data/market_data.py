@@ -10,12 +10,15 @@ class MarketData:
     def __init__(self):
         print("Market Data")
 
-    # execute function to download updated list of Real Estate Funds
     @staticmethod
     def download_files_daily():
+        """
+            Execute function to download updated list of Real Estate Funds
+        :return:
+            None
+        """
         # download csv Inf. Cad. FIE
         url = 'http://dados.cvm.gov.br/dados/FI/CAD/DADOS/'
-
 
         # scraping table with pandas
 
@@ -42,7 +45,7 @@ class MarketData:
         ManagerREIT.update_daily(file_name)
 
     @staticmethod
-    # execute my custom analisys for REITs
+    # execute my custom analysis for REITs
     def run_reits_custom_analisys():
         reit_custom.best_funds()
 
@@ -50,9 +53,9 @@ class MarketData:
 if __name__ == '__main__':
     print(datetime.now())
     try:
-        # MarketData.update_reit_cad_information()
-        # MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
-        # MarketData.run_reits_custom_analisys()
+        MarketData.update_reit_cad_information()
+        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
+        MarketData.run_reits_custom_analisys()
         MarketData.download_files_daily()
 
         print(datetime.now())
