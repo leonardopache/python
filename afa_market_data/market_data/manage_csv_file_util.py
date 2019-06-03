@@ -41,6 +41,5 @@ class ManageCSVFileUtil:
 
     @staticmethod
     def download_file(url, name):
-        url = 'http://google.com/favicon.ico'
         r = requests.get(url, allow_redirects=True)
         open(FILE_PATH + name, 'wb').write(r.content)

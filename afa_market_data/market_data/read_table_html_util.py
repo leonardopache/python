@@ -100,6 +100,12 @@ class ReadPagesUtil:
 
         return data_frame
 
+
+    @staticmethod
+    def load_table_FI_cadastre(url):
+        data_frame = pd.read_html(url, header=0, encoding="utf-8", keep_default_na=False, parse_dates=[2])[0]
+        return data_frame.loc[data_frame['Last modified'].idxmax()]['Name']
+
 #if __name__ == '__main__':
     # data = {'key1' : ['t1', 't2', 't3'], 'key2':['a1', 'a2', 'a3']}
     # data['key1'].append('t4')

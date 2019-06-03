@@ -1,8 +1,8 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from afa_market_data.market_data import ManagerREIT, reit_custom, ManageCSVFileUtil
-import os
+from afa_market_data.market_data import ManagerREIT, reit_custom, ManageCSVFileUtil, ReadPagesUtil, FII_CVM_CAD_URL
+import os, requests
 
 
 class MarketData:
@@ -18,25 +18,21 @@ class MarketData:
             None
         """
         # download csv Inf. Cad. FIE
-        url = 'http://dados.cvm.gov.br/dados/FI/CAD/DADOS/'
-
         # scraping table with pandas
-
         # df ordered by column last modification
+        last_cvs_file = ReadPagesUtil.load_table_FI_cadastre(FII_CVM_CAD_URL)
 
         # for the latest row download url + column name
-
         # CSV file is downloaded and if valid file swap with actual inf_cadastral_fie.csv
+        ManageCSVFileUtil.download_file(FII_CVM_CAD_URL+last_cvs_file, 'inf_cadastral_fie.csv')
 
 
-        # download .TXT day historic file has captcha find a way to download
-        # if url.find('/'):
-        #    name = url.rsplit('/', 1)[1]
-        # ManageCSVFileUtil.download_file(url, 'new.csv')
-
-    # execute monthly function to generate new file with cad information of Real Estate Funds
     @staticmethod
     def update_reit_cad_information():
+        """
+        Execute monthly function to generate new file with cad information of Real Estate Funds
+        :return:
+        """
         ManagerREIT.update_monthly()
 
     # function to update daily information from REIT's
@@ -53,11 +49,15 @@ class MarketData:
 if __name__ == '__main__':
     print(datetime.now())
     try:
-        MarketData.update_reit_cad_information()
-        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
-        MarketData.run_reits_custom_analisys()
+        # todos os dias uteis depois das 7
         MarketData.download_files_daily()
 
+        # sempre que for avaliar os fundos
+        #MarketData.update_reit_cad_information()
+        #MarketData.update_reit_daily('COTAHIST_A2019.TXT')
+        #MarketData.run_reits_custom_analisys()
+
+        
         print(datetime.now())
     except Exception as e:
         print(e)
