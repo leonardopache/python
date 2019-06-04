@@ -17,21 +17,17 @@ class MarketData:
         :return:
             None
         """
-        # download csv Inf. Cad. FIE
-        # scraping table with pandas
-        # df ordered by column last modification
         last_cvs_file = ReadPagesUtil.load_table_FI_cadastre(FII_CVM_CAD_URL)
 
-        # for the latest row download url + column name
-        # CSV file is downloaded and if valid file swap with actual inf_cadastral_fie.csv
         ManageCSVFileUtil.download_file(FII_CVM_CAD_URL+last_cvs_file, 'inf_cadastral_fie.csv')
 
 
     @staticmethod
     def update_reit_cad_information():
         """
-        Execute monthly function to generate new file with cad information of Real Estate Funds
+        Execute monthly function to generate new file with a list of information Real Estate Funds
         :return:
+            None
         """
         ManagerREIT.update_monthly()
 
@@ -57,7 +53,7 @@ if __name__ == '__main__':
         #MarketData.update_reit_daily('COTAHIST_A2019.TXT')
         #MarketData.run_reits_custom_analisys()
 
-        
+
         print(datetime.now())
     except Exception as e:
         print(e)

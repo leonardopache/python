@@ -35,11 +35,19 @@ class ManageCSVFileUtil:
             :param source:
             :param target:
 
-            :return File with the new name:
+            :return
+                File with the new name:
         """
         os.rename(FILE_PATH + source, FILE_PATH + target)
 
     @staticmethod
     def download_file(url, name):
+        """
+            Download the content of url in the file name parameter
+        :param url:
+        :param name:
+        :return:
+            None
+        """
         r = requests.get(url, allow_redirects=True)
         open(FILE_PATH + name, 'wb').write(r.content)

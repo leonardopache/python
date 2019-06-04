@@ -103,6 +103,14 @@ class ReadPagesUtil:
 
     @staticmethod
     def load_table_FI_cadastre(url):
+        """
+            Download csv Inf. Cad. FIE;
+            scraping table with pandas
+            dataframe ordered by column last modification
+        :param url:
+        :return:
+            Name of last file updated
+        """
         data_frame = pd.read_html(url, header=0, encoding="utf-8", keep_default_na=False, parse_dates=[2])[0]
         return data_frame.loc[data_frame['Last modified'].idxmax()]['Name']
 
