@@ -70,7 +70,6 @@ class ReadPagesUtil:
             if response :
                 loop = False
 
-        #response = requests.get(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
         soup = bs.BeautifulSoup(response.text, 'lxml')
         tables = soup.find_all('table')
         if len(tables) > 0:
@@ -80,14 +79,14 @@ class ReadPagesUtil:
                      for td in row.find_all('td')] for row in parsed_table.find_all('tr')]
             df_all_docs = pd.DataFrame(data[1:], columns=['Nome do Fundo', 'Categoria', 'Tipo',
                                 'Espécie', 'Data de Referência', 'Data de Entrega', 'Status',
-                                'Versão', 'Modalidade de Envio', 'Ações'], parse_dates=[4])
+                                'Versão', 'Modalidade de Envio', 'Ações'])
 
-            df_all_docs = df_all_docs.loc[df_all_docs['Tipo'] == 'Informe Mensal']
+            df_all_docs = df_all_docs.loc[df_all_docs['Tipo'] == 'Informe Mensal Estruturado']
             df_all_docs = df_all_docs.loc[df_all_docs['Status'] == 'Ativo']
-            df_all_docs = df_all_docs.loc[df_all_docs['Data de Referência'].idxmax()]
             df_all_docs = df_all_docs.reset_index(drop=True)
-            print(df_all_docs)
-            return df_all_docs
+            df_all_docs['Data de Referência'] = pd.to_datetime(df_all_docs['Data de Referência'])
+
+            return df_all_docs.loc[df_all_docs['Data de Referência'].idxmax()]
         else:
             return ''
 

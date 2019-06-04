@@ -31,11 +31,12 @@ class ManagerREIT:
 
         for index, row in funds_cad_df.iterrows():
             cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
-            #print('=========================> ', cnpj)
+            print('====CNPJ====> ', cnpj)
             df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
 
             if not df_all_docs.empty:
-                doc_df = ReadPagesUtil.load_tables_doc(df_all_docs['Ações'][0])
+                print(df_all_docs['Ações'])
+                doc_df = ReadPagesUtil.load_tables_doc(df_all_docs['Ações'])
                 table_1df = doc_df[0]
                 # nome
                 data['NAME'].append(table_1df[1][0])
