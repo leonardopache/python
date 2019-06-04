@@ -17,9 +17,6 @@ class MarketData:
         :return:
             None
         """
-        # download csv Inf. Cad. FIE
-        # scraping table with pandas
-        # df ordered by column last modification
         last_cvs_file = ReadPagesUtil.load_table_FI_cadastre(FII_CVM_CAD_URL)
 
         # for the latest row download url + column name
