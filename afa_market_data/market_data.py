@@ -27,15 +27,15 @@ class MarketData:
     @staticmethod
     def update_reit_cad_information():
         """
-        Execute monthly function to generate new file with cad information of Real Estate Funds
+        Execute monthly function to generate new file with information of Real Estate Funds
         :return:
         """
-        ManagerREIT.update_monthly()
+        ManagerREIT.collect_all_REIT_info()
 
     # function to update daily information from REIT's
     @staticmethod
     def update_reit_daily(file_name):
-        ManagerREIT.update_daily(file_name)
+        ManagerREIT.collect_REIT_daily_stock(file_name)
 
     @staticmethod
     # execute my custom analysis for REITs
@@ -49,10 +49,12 @@ if __name__ == '__main__':
         # todos os dias uteis depois das 7
         #MarketData.download_files_daily()
 
+        # monthly
+        #MarketData.update_reit_cad_information()
+
         # sempre que for avaliar os fundos
-        MarketData.update_reit_cad_information()
-        #MarketData.update_reit_daily('COTAHIST_M052019.TXT')
-        #MarketData.run_reits_custom_analisys()
+        MarketData.update_reit_daily('COTAHIST_M052019.TXT')
+        MarketData.run_reits_custom_analisys()
 
         # send cvs to google drive
 

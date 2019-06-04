@@ -18,7 +18,13 @@ class ManagerREIT:
     """
 
     @staticmethod
-    def update_monthly():
+    def collect_all_REIT_info():
+        """
+            Based on csv inf_cadastral_fie.csv for each fund cnpj load all necessary information for analysis. Many of this
+            information can be updated monthly.
+        :return:
+            reits_df (funds_cad.csv)
+        """
         funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv',
                                                        ['TP_FUNDO', 'CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'])
         funds_cad_df = funds_cad_df.loc[funds_cad_df['SIT'] == 'EM FUNCIONAMENTO NORMAL']
@@ -73,9 +79,15 @@ class ManagerREIT:
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
         return reits_df
 
-    # Update REIT information daily about the fund and update the BD
+
     @staticmethod
-    def update_daily(file_name):
+    def collect_REIT_daily_stock(file_name):
+        """
+            Update REIT information that can be changed every day like Stock Price and Volume.
+        :param
+            file_name: Name of the file with historic data from B3.
+        :return:
+        """
 
         funds = ManageCSVFileUtil.read_file_csv('funds_cad.csv')
         funds = funds[funds['ISIN'] != '']
