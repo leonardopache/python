@@ -10,7 +10,7 @@ from .constants import FILE_PATH
 class ManageCSVFileUtil:
 
     @staticmethod
-    def read_file_csv(filename, usecols='All', encoding='None'):
+    def read_file_csv(filename, usecols='ALL', encoding='None'):
 
         if encoding is 'None':
             with open(FILE_PATH + filename, 'rb') as f:
