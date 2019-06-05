@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from afa_market_data.market_data import ManagerREIT, reit_custom, ManageCSVFileUtil, ReadPagesUtil, FII_CVM_CAD_URL
+from .market_data import ManagerREIT, reit_custom, ManageCSVFileUtil, ReadPagesUtil, FII_CVM_CAD_URL
 import os, requests
 
 
@@ -27,7 +27,7 @@ class MarketData:
     @staticmethod
     def update_reit_cad_information():
         """
-        Execute monthly function to generate new file with information of Real Estate Funds
+            Execute monthly function to generate new file with information of Real Estate Funds
         :return:
         """
         ManagerREIT.collect_all_REIT_info()
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         #MarketData.update_reit_cad_information()
 
         # sempre que for avaliar os fundos
-        MarketData.update_reit_daily('COTAHIST_M052019.TXT')
+        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
         MarketData.run_reits_custom_analisys()
 
         # send cvs to google drive

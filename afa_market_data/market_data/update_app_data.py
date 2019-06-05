@@ -41,8 +41,8 @@ class ManagerREIT:
             df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
 
             if not df_all_docs.empty:
-                print(df_all_docs['Ações'])
                 doc_df = ReadPagesUtil.load_tables_doc(df_all_docs['Ações'])
+                #print(doc_df)
                 table_1df = doc_df[0]
                 # nome
                 data['NAME'].append(table_1df[1][0])
@@ -91,6 +91,7 @@ class ManagerREIT:
 
         funds = ManageCSVFileUtil.read_file_csv('funds_cad.csv')
         funds = funds[funds['ISIN'] != '']
+        funds = funds.reset_index(drop=True)
 
         series = SeriesInterpreter(file_name)
 
@@ -115,4 +116,3 @@ class ManagerREIT:
 
         ManageCSVFileUtil.data_frame_to_csv('reits-today.csv', funds, 'ISO-8859-1')
         return funds
-

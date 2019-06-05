@@ -65,9 +65,10 @@ class ReadPagesUtil:
     @staticmethod
     def load_html_page_all_docs(cnpj):
         loop = True
+        #print(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
         while(loop):
             response = do_request(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
-            if response :
+            if response:
                 loop = False
 
         soup = bs.BeautifulSoup(response.text, 'lxml')
@@ -77,18 +78,22 @@ class ReadPagesUtil:
             data = [[str(td.a['href']).replace('visualizarDocumento','exibirDocumento') if td.find('a')
                         else ''.join(td.stripped_strings)
                      for td in row.find_all('td')] for row in parsed_table.find_all('tr')]
+
             df_all_docs = pd.DataFrame(data[1:], columns=['Nome do Fundo', 'Categoria', 'Tipo',
                                 'Espécie', 'Data de Referência', 'Data de Entrega', 'Status',
                                 'Versão', 'Modalidade de Envio', 'Ações'])
 
             df_all_docs = df_all_docs.loc[df_all_docs['Tipo'] == 'Informe Mensal Estruturado']
             df_all_docs = df_all_docs.loc[df_all_docs['Status'] == 'Ativo']
-            df_all_docs = df_all_docs.reset_index(drop=True)
             df_all_docs['Data de Referência'] = pd.to_datetime(df_all_docs['Data de Referência'])
 
-            return df_all_docs.loc[df_all_docs['Data de Referência'].idxmax()]
+            df_all_docs = df_all_docs.reset_index(drop=True)
+            if not df_all_docs.empty:
+                return df_all_docs.loc[df_all_docs['Data de Referência'].idxmax()]
+            else:
+                return df_all_docs
         else:
-            return ''
+            return []
 
     @staticmethod
     def load_tables_doc(link):

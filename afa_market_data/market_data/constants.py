@@ -16,6 +16,6 @@ YAHOO_FINANCE_TICKER_HISTORY = 'https://finance.yahoo.com/quote/{0}.SA/history?p
 
 FII_BMF_EVENTS_TAB = 'FundosListadosDetalhe.aspx?Sigla={}&tipoFundo=Imobiliario&aba=abaEventosCorporativos&idioma=en-us'
 FII_CVM_BASE = 'http://fnet.bmfbovespa.com.br/fnet/publico/'
-FII_CVM_DOCS_LIST = 'abrirGerenciadorDocumentosCVM?cnpjFundo={}'
+FII_CVM_DOCS_LIST = 'abrirGerenciadorDocumentosCVM?cnpjFundo={}&categoriaDocumento=6'
 
 FII_CVM_CAD_URL = 'http://dados.cvm.gov.br/dados/FI/CAD/DADOS/'
