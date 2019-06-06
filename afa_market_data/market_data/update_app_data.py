@@ -6,6 +6,7 @@ from .manage_csv_file_util import ManageCSVFileUtil
 from .read_table_html_util import ReadPagesUtil
 from .series_interpreter import SeriesInterpreter
 from datetime import datetime, timedelta
+from tqdm import tqdm
 
 
 def load_reit_values(isin, series):
@@ -26,27 +27,32 @@ class ManagerREIT:
             reits_df (funds_cad.csv)
         """
         funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv',
-                                                       ['CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'])
+                                                       ['CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'], encoding='ISO-8859-1')
         funds_cad_df = funds_cad_df.loc[funds_cad_df['SIT'] == 'EM FUNCIONAMENTO NORMAL']
-        #funds_cad_df = funds_cad_df.loc[funds_cad_df['TP_FUNDO'] == 'F.I.I.']
 
         data = {'COMPANY_ID': [], 'QUOTA': [], 'ISIN': [], 'NAME': [],
                 'DATE_INI': [], 'EXCLUSIVE': [], 'CLASS': [],
                 'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUITY': [],
                 'DY_LAST': [], 'PRICE_QUOTA_EQUITY': []}
 
-        for index, row in funds_cad_df.iterrows():
-            cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
-            print('====CNPJ====> ', cnpj)
+        with tqdm(range(len(funds_cad_df))) as pbar:
+            for index, row in funds_cad_df.iterrows():
+                cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
+                #print('====CNPJ====> ', cnpj, len(funds_cad_df))
+                pbar.set_description("Processing CNPJ %s" % cnpj)
 
-            df_all_docs = ReadPagesUtil.load_html_page_all_docs('22003469000117')
-            if  not df_all_docs.empty:
-                df_inf_estruturado = ManagerREIT.get_last_inf_estruturado(df_all_docs)
-                ManagerREIT.fill_informe_estruturado(data, df_inf_estruturado)
+                df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
+                if not df_all_docs.empty:
+                    df_inf_estruturado = ManagerREIT.get_last_inf_estruturado(df_all_docs)
+                    ManagerREIT.fill_informe_estruturado(data, df_inf_estruturado)
 
-                if "BR" not in data['ISIN'][-1]:
-                    pass
-
+                    if "BR" not in data['ISIN'][-1]:
+                        df_general = ManagerREIT.get_last_inf_general(df_all_docs)
+                        if not df_general.empty:
+                            doc_df = ReadPagesUtil.load_tables_doc(df_general['Ações'])
+                            table_1df = doc_df[0]
+                            data['ISIN'][-1] = table_1df[1][3]
+                pbar.update(1)
         reits_df = pd.DataFrame(data)
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
         return reits_df
@@ -54,8 +60,15 @@ class ManagerREIT:
     @staticmethod
     def get_last_inf_estruturado(df_all_docs):
         df = df_all_docs.loc[df_all_docs['Tipo'] == 'Informe Mensal Estruturado']
-        df = df.loc[df['Status'] == 'Ativo']
-        df['Data de Referência'] = pd.to_datetime(df['Data de Referência'])
+        df = df.reset_index(drop=True)
+        if not df.empty:
+            return df.loc[df['Data de Referência'].idxmax()]
+        else:
+            return df
+
+    @staticmethod
+    def get_last_inf_general(df_all_docs):
+        df = df_all_docs.loc[df_all_docs['Tipo'] == 'Rendimentos e Amortizações']
         df = df.reset_index(drop=True)
         if not df.empty:
             return df.loc[df['Data de Referência'].idxmax()]

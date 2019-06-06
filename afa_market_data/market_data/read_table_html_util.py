@@ -82,7 +82,11 @@ class ReadPagesUtil:
             df_all_docs = pd.DataFrame(data[1:], columns=['Nome do Fundo', 'Categoria', 'Tipo',
                                 'Espécie', 'Data de Referência', 'Data de Entrega', 'Status',
                                 'Versão', 'Modalidade de Envio', 'Ações'])
-            return df_all_docs
+
+            df_all_docs = df_all_docs.loc[df_all_docs['Status'] == 'Ativo']
+            df_all_docs['Data de Referência'] = pd.to_datetime(df_all_docs['Data de Referência'])
+
+            return df_all_docs.reset_index(drop=True)
         else:
             return []
 
