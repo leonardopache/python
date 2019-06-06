@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import re
+from .manage_threads import prepare_df_to_threading, thread_run
 from .manage_csv_file_util import ManageCSVFileUtil
 from .read_table_html_util import ReadPagesUtil
 from .series_interpreter import SeriesInterpreter
@@ -35,27 +36,34 @@ class ManagerREIT:
                 'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUITY': [],
                 'DY_LAST': [], 'PRICE_QUOTA_EQUITY': []}
 
+        splited_df = prepare_df_to_threading(10, funds_cad_df)
         with tqdm(range(len(funds_cad_df))) as pbar:
-            for index, row in funds_cad_df.iterrows():
-                cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
-                #print('====CNPJ====> ', cnpj, len(funds_cad_df))
-                pbar.set_description("Processing CNPJ %s" % cnpj)
+            pbar.set_description("Processing ")
+            thread_run(data, splited_df,pbar, ManagerREIT.update_reit_from_reports)
 
-                df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
-                if not df_all_docs.empty:
-                    df_inf_estruturado = ManagerREIT.get_last_inf_estruturado(df_all_docs)
-                    ManagerREIT.fill_informe_estruturado(data, df_inf_estruturado)
-
-                    if "BR" not in data['ISIN'][-1]:
-                        df_general = ManagerREIT.get_last_inf_general(df_all_docs)
-                        if not df_general.empty:
-                            doc_df = ReadPagesUtil.load_tables_doc(df_general['Ações'])
-                            table_1df = doc_df[0]
-                            data['ISIN'][-1] = table_1df[1][3]
-                pbar.update(1)
         reits_df = pd.DataFrame(data)
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
         return reits_df
+
+    @staticmethod
+    def update_reit_from_reports(data, funds_cad_df, pbar):
+        for index, row in funds_cad_df.iterrows():
+            cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
+            # print('====CNPJ====> ', cnpj, len(funds_cad_df))
+
+            df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
+            if not df_all_docs.empty:
+                df_inf_estruturado = ManagerREIT.get_last_inf_estruturado(df_all_docs)
+                ManagerREIT.fill_informe_estruturado(data, df_inf_estruturado)
+
+                if "BR" not in data['ISIN'][-1]:
+                    df_general = ManagerREIT.get_last_inf_general(df_all_docs)
+                    if not df_general.empty:
+                        doc_df = ReadPagesUtil.load_tables_doc(df_general['Ações'])
+                        table_1df = doc_df[0]
+                        data['ISIN'][-1] = table_1df[1][3]
+            pbar.update(1)
+
 
     @staticmethod
     def get_last_inf_estruturado(df_all_docs):

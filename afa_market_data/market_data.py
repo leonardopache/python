@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from market_data import ManagerREIT, reit_custom, ManageCSVFileUtil, ReadPagesUtil, FII_CVM_CAD_URL
+from afa_market_data.market_data import ManagerREIT, reit_custom, ManageCSVFileUtil, ReadPagesUtil, FII_CVM_CAD_URL
 import os, requests
 
 
@@ -53,8 +53,8 @@ if __name__ == '__main__':
         MarketData.update_reit_cad_information()
 
         # sempre que for avaliar os fundos
-        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
-        MarketData.run_reits_custom_analisys()
+        #MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
+        #MarketData.run_reits_custom_analisys()
 
         # send cvs to google drive
 

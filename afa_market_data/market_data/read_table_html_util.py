@@ -12,14 +12,14 @@ def do_request(url):
     try:
         return requests.get(url)
     except Exception as err:
-        print(err)
+        #print(err)
         return False
 
 def read_html(url):
     try:
         return pd.read_html(url, header=None, encoding="utf-8", keep_default_na=False)
     except Exception as err:
-        print(err)
+        #print(err)
         return False
 
 
@@ -57,8 +57,9 @@ class ReadPagesUtil:
             list_tables = pd.read_html(YAHOO_FINANCE_TICKER_HISTORY.format(ticker), header=0, encoding='utf-8', decimal=',')
             value = list_tables[0]['Close*'].iloc[0]
         except:
+            pass
             # nothing for now
-            print(list_tables)
+            #print(list_tables)
         return value
 
 

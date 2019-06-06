@@ -1,3 +1,4 @@
+"""
 l = list(range(20, 30))
 
 for __ in l:
@@ -24,3 +25,56 @@ def string_p(s):
         string_p(s[:-1])
 
 string_p('Leonardo')
+"""
+# threading
+
+import threading
+import pandas as pd
+import re
+
+funds_cad_df = pd.read_csv('../afa_market_data/market_data/files/inf_cadastral_fie.csv', encoding='ISO-8859-1', sep=';', header=0, keep_default_na=False)
+funds_cad_df = funds_cad_df.loc[funds_cad_df['SIT'] == 'EM FUNCIONAMENTO NORMAL']
+data = {'COMPANY_ID': []}
+
+
+def execute_rule(data, df):
+    for index, row in df.iterrows():
+        cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
+        data['COMPANY_ID'].append(cnpj)
+
+
+def prepare_df_to_threading(num_threads, funds_cad_df):
+    size = len(funds_cad_df)
+    split_size = int(size / num_threads)
+    ini =0
+    pivot = 0
+    arr = []
+    for i in range(num_threads-1):
+        pivot += split_size
+        arr.append(funds_cad_df.iloc[ini:pivot])
+        ini = pivot
+    arr.append(funds_cad_df.iloc[ini:])
+    return arr
+
+
+def thread_run(data, arr_values, method_target):
+    threads = []
+    index = 0
+    for df in arr_values:
+        index += 1
+        t = threading.Thread(name='T' + str(index), target=method_target, args=(data, df))
+        threads.append(t)
+        t.start()
+
+    for t in threads:
+        t.join()
+
+    return threads
+
+
+arr_df = prepare_df_to_threading(5, funds_cad_df)
+thread_run(data, arr_df, execute_rule)
+
+print(len(data['COMPANY_ID']), len(funds_cad_df))
+
+
