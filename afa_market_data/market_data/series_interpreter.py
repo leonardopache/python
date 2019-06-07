@@ -48,7 +48,7 @@ class SeriesInterpreter():
                 self.split_position_value(line)
 
         data_frame = pd.DataFrame(self.shares)
-        #first and last line is about header of the file
+        # first and last line is about header of the file
         data_frame = data_frame.drop([0,len(data_frame)-1], axis=0)
         return data_frame.reset_index(drop=True)
 

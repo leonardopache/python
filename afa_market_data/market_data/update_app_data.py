@@ -18,6 +18,10 @@ class ManagerREIT:
     """
         Class responsible for keep the market information updated in internal data base
     """
+    data = {'COMPANY_ID': [], 'QUOTA': [], 'ISIN': [], 'NAME': [],
+            'DATE_INI': [], 'EXCLUSIVE': [], 'CLASS': [],
+            'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUITY': [],
+            'DY_LAST': [], 'PRICE_QUOTA_EQUITY': []}
 
     @staticmethod
     def collect_all_REIT_info():
@@ -27,41 +31,41 @@ class ManagerREIT:
         :return:
             reits_df (funds_cad.csv)
         """
-        funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv',
-                                                       ['CNPJ_FUNDO', 'SIT', 'DENOM_SOCIAL', 'DT_REG'], encoding='ISO-8859-1')
+        funds_cad_df = ManageCSVFileUtil.read_file_csv('inf_cadastral_fie.csv', ['TP_FUNDO', 'CNPJ_FUNDO',
+                                                                                 'SIT', 'DENOM_SOCIAL', 'DT_REG'],
+                                                       encoding='ISO-8859-1')
+
         funds_cad_df = funds_cad_df.loc[funds_cad_df['SIT'] == 'EM FUNCIONAMENTO NORMAL']
+        funds_cad_df = funds_cad_df.loc[funds_cad_df['TP_FUNDO'] == 'F.I.I.']
 
-        data = {'COMPANY_ID': [], 'QUOTA': [], 'ISIN': [], 'NAME': [],
-                'DATE_INI': [], 'EXCLUSIVE': [], 'CLASS': [],
-                'REFERENCE': [], 'TARGET': [], 'OWNERS': [], 'ASSETS': [], 'EQUITY': [],
-                'DY_LAST': [], 'PRICE_QUOTA_EQUITY': []}
+        #splited_df = prepare_df_to_threading(1, funds_cad_df)
 
-        splited_df = prepare_df_to_threading(10, funds_cad_df)
         with tqdm(range(len(funds_cad_df))) as pbar:
             pbar.set_description("Processing ")
-            thread_run(data, splited_df,pbar, ManagerREIT.update_reit_from_reports)
+            #threads = thread_run(splited_df, pbar, ManagerREIT.update_reit_from_reports)
+            ManagerREIT.update_reit_from_reports(funds_cad_df, pbar)
 
-        reits_df = pd.DataFrame(data)
+        reits_df = pd.DataFrame(ManagerREIT.data)
         ManageCSVFileUtil.data_frame_to_csv('funds_cad.csv', reits_df, 'ISO-8859-1')
         return reits_df
 
     @staticmethod
-    def update_reit_from_reports(data, funds_cad_df, pbar):
+    def update_reit_from_reports(funds_cad_df, pbar):
         for index, row in funds_cad_df.iterrows():
-            cnpj = re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO'])
-            # print('====CNPJ====> ', cnpj, len(funds_cad_df))
 
-            df_all_docs = ReadPagesUtil.load_html_page_all_docs(cnpj)
+            df_all_docs = ReadPagesUtil.load_html_page_all_docs(re.sub('[^A-Za-z0-9]+', '', row['CNPJ_FUNDO']))
             if not df_all_docs.empty:
                 df_inf_estruturado = ManagerREIT.get_last_inf_estruturado(df_all_docs)
-                ManagerREIT.fill_informe_estruturado(data, df_inf_estruturado)
+                ManagerREIT.fill_informe_estruturado(ManagerREIT.data, df_inf_estruturado)
 
-                if "BR" not in data['ISIN'][-1]:
+                if "BR" not in ManagerREIT.data['ISIN'][-1]:
                     df_general = ManagerREIT.get_last_inf_general(df_all_docs)
                     if not df_general.empty:
                         doc_df = ReadPagesUtil.load_tables_doc(df_general['Ações'])
                         table_1df = doc_df[0]
-                        data['ISIN'][-1] = table_1df[1][3]
+                        ManagerREIT.data['ISIN'][-1] = table_1df[1][3]
+                        print(table_1df[0][3], table_1df[1][3])
+
             pbar.update(1)
 
 
@@ -141,8 +145,8 @@ class ManagerREIT:
         ticker = []
         for index, row in funds.iterrows():
             value_a, volume_a, ticker_a = load_reit_values(row['ISIN'], series)
-            value.append(value_a)
-            volume.append(volume_a)
+            value.append(float(value_a))
+            volume.append(float(volume_a))
             ticker.append(ticker_a)
 
         # create new columns for PRICE_MARKET VOLUME TICKER

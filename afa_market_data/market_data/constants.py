@@ -18,4 +18,5 @@ FII_BMF_EVENTS_TAB = 'FundosListadosDetalhe.aspx?Sigla={}&tipoFundo=Imobiliario&
 FII_CVM_BASE = 'http://fnet.bmfbovespa.com.br/fnet/publico/'
 FII_CVM_DOCS_LIST = 'abrirGerenciadorDocumentosCVM?cnpjFundo={}'
 
-FII_CVM_CAD_URL = 'http://dados.cvm.gov.br/dados/FI/CAD/DADOS/'
+FII_CVM_CAD_URL = 'http://dados.cvm.gov.br/dados/FIE/CAD/DADOS/'
+
