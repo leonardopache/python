@@ -47,13 +47,13 @@ if __name__ == '__main__':
     print(datetime.now())
     try:
         # todos os dias uteis depois das 7
-        #MarketData.download_files_daily()
+        # MarketData.download_files_daily()
 
         # monthly
-        MarketData.update_reit_cad_information()
+        # MarketData.update_reit_cad_information()
 
         # sempre que for avaliar os fundos
-        #MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
+        MarketData.update_reit_daily('COTAHIST_D12042019.TXT')
         #MarketData.run_reits_custom_analisys()
 
         # send cvs to google drive

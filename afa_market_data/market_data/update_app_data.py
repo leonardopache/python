@@ -145,8 +145,8 @@ class ManagerREIT:
         ticker = []
         for index, row in funds.iterrows():
             value_a, volume_a, ticker_a = load_reit_values(row['ISIN'], series)
-            value.append(float(value_a))
-            volume.append(float(volume_a))
+            value.append(int(float(value_a)))
+            volume.append(int(float(volume_a)))
             ticker.append(ticker_a)
 
         # create new columns for PRICE_MARKET VOLUME TICKER
