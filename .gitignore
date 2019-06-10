@@ -110,3 +110,5 @@ venv.bak/
 # IDE
 .idea/
 Index-input-data/isinp/COTAHIST_A2018\.TXT
+
+afa_market_data/market_data/files/COTAHIST_A2019\.TXT

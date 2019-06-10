@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 """
 l = list(range(20, 30))
 
@@ -25,9 +27,9 @@ def string_p(s):
         string_p(s[:-1])
 
 string_p('Leonardo')
-"""
-# threading
 
+
+####################### threading
 import threading
 import pandas as pd
 import re
@@ -77,4 +79,19 @@ thread_run(data, arr_df, execute_rule)
 
 print(len(data['COMPANY_ID']), len(funds_cad_df))
 
+"""
 
+import pandas as pd
+
+
+d1 = {'CL1': [0, 1], 'CL2':['test index 1', 'Arya']}
+df1 = pd.DataFrame(d1)
+
+
+
+d2 = {'CL8': ['leo'], 'CL9':[]}
+d2['CL9'].append('value')
+
+df1['CL_df'] = pd.MultiIndex.from_arrays(d2, names =('Number', 'Names'))
+
+print(df1)

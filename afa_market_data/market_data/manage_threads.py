@@ -17,16 +17,12 @@ def prepare_df_to_threading(num_threads, target_df):
     return arr
 
 
-def thread_run(arr_values, pbar, method_target):
+def create_threads(arr_values, pbar, method_target):
     threads = []
     index = 0
     for df in arr_values:
         index += 1
         t = threading.Thread(name='T' + str(index), target=method_target, args=(df, pbar))
         threads.append(t)
-        t.start()
-
-    for t in threads:
-        t.join()
 
     return threads

@@ -5,6 +5,7 @@
     Be careful with huge files!!!! just joking, this is Python
 '''
 import pandas as pd
+import re, math, datetime
 from .constants import FILE_PATH
 
 
@@ -12,7 +13,7 @@ class SeriesInterpreter():
 
     def split_position_value(self, line):
         self.shares['TIPREG'].append(line[0:2])
-        self.shares['DATA'].append(line[2:10])
+        self.shares['DATA'].append(datetime.date(int(line[2:6]), int(line[6:8]), int(line[8:10])))
         self.shares['CODBDI'].append(line[10:12])
         self.shares['CODNEG'].append(line[12:24])
         self.shares['TIPMERC'].append(line[24:27])
@@ -24,12 +25,12 @@ class SeriesInterpreter():
         self.shares['PREMAX'].append(line[69:80]+'.'+line[80:82])
         self.shares['PREMIN'].append(line[82:93]+'.'+line[93:95])
         self.shares['PREMED'].append(line[95:106]+'.'+line[106:108])
-        self.shares['PREULT'].append(line[108:119]+'.'+line[119:121])
+        self.shares['PREULT'].append(math.ceil(float(re.sub('[^\S]+', '0', line[108:119]+'.'+line[119:121]))))
         self.shares['PREOFC'].append(line[121:132]+'.'+line[132:134])
         self.shares['PREOFV'].append(line[134:145]+'.'+line[145:147])
         self.shares['TOTNEG'].append(line[147:152])
         self.shares['QUATOT'].append(line[152:170])
-        self.shares['VOLTOT'].append(line[170:186]+'.'+line[186:188])
+        self.shares['VOLTOT'].append(math.ceil(float(re.sub('[^\S]+', '0', line[170:186]+'.'+line[186:188]))))
         self.shares['PREEXE'].append(line[188:199]+'.'+line[199:201])
         self.shares['INDOPC'].append(line[201:202])
         self.shares['DATVEN'].append(line[202:210])
@@ -45,7 +46,8 @@ class SeriesInterpreter():
 
         with open(FILE_PATH+file_name, 'r') as f:
             for line in f:
-                self.split_position_value(line)
+                if not line.startswith('00') and not line.startswith('99'):
+                    self.split_position_value(line)
 
         data_frame = pd.DataFrame(self.shares)
         # first and last line is about header of the file
@@ -54,6 +56,9 @@ class SeriesInterpreter():
 
     def get_series(self):
         return self.data_frame
+
+    def get_historic_isin_df(self, isin):
+        return self.data_frame[self.data_frame['CODISI'] == isin][['CODISI', 'PREULT', 'VOLTOT', 'CODNEG', 'DATA']]
 
     def get_daily_value(self, isin):
         value = self.data_frame[self.data_frame['CODISI'] == isin].PREULT

@@ -66,7 +66,7 @@ class ReadPagesUtil:
     @staticmethod
     def load_html_page_all_docs(cnpj):
         loop = True
-        #print(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
+        # print(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
         while(loop):
             response = do_request(FII_CVM_BASE+FII_CVM_DOCS_LIST.format(cnpj))
             if response:
@@ -81,8 +81,8 @@ class ReadPagesUtil:
                      for td in row.find_all('td')] for row in parsed_table.find_all('tr')]
 
             df_all_docs = pd.DataFrame(data[1:], columns=['Nome do Fundo', 'Categoria', 'Tipo',
-                                'Espécie', 'Data de Referência', 'Data de Entrega', 'Status',
-                                'Versão', 'Modalidade de Envio', 'Ações'])
+                                                          'Espécie', 'Data de Referência', 'Data de Entrega',
+                                                          'Status', 'Versão', 'Modalidade de Envio', 'Ações'])
 
             df_all_docs = df_all_docs.loc[df_all_docs['Status'] == 'Ativo']
             df_all_docs['Data de Referência'] = pd.to_datetime(df_all_docs['Data de Referência'])

@@ -38,7 +38,10 @@ class ManageCSVFileUtil:
             :return
                 File with the new name:
         """
-        os.rename(FILE_PATH + source, FILE_PATH + target)
+        try:
+            os.rename(FILE_PATH + source, FILE_PATH + target)
+        except:
+            pass
 
     @staticmethod
     def download_file(url, name):
