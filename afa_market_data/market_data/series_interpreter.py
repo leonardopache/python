@@ -15,7 +15,7 @@ class SeriesInterpreter():
         self.shares['TIPREG'].append(line[0:2])
         self.shares['DATA'].append(datetime.date(int(line[2:6]), int(line[6:8]), int(line[8:10])))
         self.shares['CODBDI'].append(line[10:12])
-        self.shares['CODNEG'].append(line[12:24])
+        self.shares['CODNEG'].append(str(line[12:24]).strip())
         self.shares['TIPMERC'].append(line[24:27])
         self.shares['NOMRES'].append(line[27:39])
         self.shares['ESPECI'].append(line[39:49])
@@ -36,7 +36,7 @@ class SeriesInterpreter():
         self.shares['DATVEN'].append(line[202:210])
         self.shares['FATCOT'].append(line[210:217])
         self.shares['PTOEXE'].append(line[217:230])
-        self.shares['CODISI'].append(line[230:242])
+        self.shares['CODISI'].append(str(line[230:242]).strip())
         self.shares['DISMES'].append(line[242:245])
         #print(self.shares)
 
@@ -51,7 +51,7 @@ class SeriesInterpreter():
 
         data_frame = pd.DataFrame(self.shares)
         # first and last line is about header of the file
-        data_frame = data_frame.drop([0,len(data_frame)-1], axis=0)
+        # data_frame = data_frame.drop([0,len(data_frame)-1], axis=0)
         return data_frame.reset_index(drop=True)
 
     def get_series(self):

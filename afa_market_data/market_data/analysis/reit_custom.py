@@ -10,12 +10,6 @@ import pandas as pd
 def best_funds():
     # load file with funds data
     funds = ManageCSVFileUtil.read_file_csv('reits-today.csv', encoding='ISO-8859-1')
-    #funds = funds[funds['TICKER'] != '']
-
-    # pd.to_numeric(funds.PRICE_MARKET, errors='coerce')
-    # filter for only funds with PRICE_MARKE is Smaller
-    # to PRICE_QUOTA_EQUITY or until 10% Greater PRICE_QUOTA_EQUITY
-    funds = funds.loc[funds['PREULT'] < funds['PRICE_QUOTA_EQUITY']]
 
     # order funds by DY Greater to Smaller
     # order funds by PRICE_MARKET Smaller to Greater
@@ -23,14 +17,17 @@ def best_funds():
     # funds.loc[]
     funds['DATA'] = pd.to_datetime(funds['DATA'])
     xpto = []
-    aux = funds.groupby(['CODNEG'])
-    for ticker in aux.groups.keys():
-        print(ticker)
-        # filtrar do df pelo ticker # pegar row com maior DATA
-        isin = funds.loc[funds['CODNEG'] == ticker]
+    aux = funds.groupby(['CODISI'])
+    for codisi in aux.groups.keys():
+        # filtrar do df pelo ticker
+        isin = funds.loc[funds['CODISI'] == codisi]
+        # pegar row com maior DATA
         isin = isin.loc[isin['DATA'].idxmax()]
         # adicionar no novo df
         xpto.append(isin)
     funds = pd.DataFrame(xpto)
+    # filter for only funds with PRICE_MARKE is Smaller
+    # to PRICE_QUOTA_EQUITY or until 10% Greater PRICE_QUOTA_EQUITY
+    funds = funds.loc[funds['PREULT'] < funds['PRICE_QUOTA_EQUITY']]
     funds.reset_index(drop=True, inplace=True)
     ManageCSVFileUtil.data_frame_to_csv('xpto.csv', funds)
