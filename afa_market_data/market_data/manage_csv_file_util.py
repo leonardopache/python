@@ -4,10 +4,11 @@ import pandas as pd
 import chardet
 import os
 import requests
+import zipfile
 from .constants import FILE_PATH
 
 
-class ManageCSVFileUtil:
+class ManageFileUtil:
 
     @staticmethod
     def read_file_csv(filename, usecols='ALL', encoding='None'):
@@ -52,5 +53,14 @@ class ManageCSVFileUtil:
         :return:
             None
         """
-        r = requests.get(url, allow_redirects=True)
-        open(FILE_PATH + name, 'wb').write(r.content)
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(FILE_PATH + name, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=1024):
+                    if chunk: # filter out keep-alive new chunks
+                        f.write(chunk)
+
+    @staticmethod
+    def unzip_file(source_file, target_path=FILE_PATH):
+        with zipfile.ZipFile(FILE_PATH + source_file,"r") as zip_ref:
+            zip_ref.extractall(target_path)

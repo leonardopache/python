@@ -3,13 +3,13 @@
 """
 Responsible for Real Estate Investments Trust custom analysis
 """
-from ..manage_csv_file_util import ManageCSVFileUtil
+from ..manage_csv_file_util import ManageFileUtil
 import pandas as pd
 
 
 def best_funds():
     # load file with funds data
-    funds = ManageCSVFileUtil.read_file_csv('reits-today.csv', encoding='ISO-8859-1')
+    funds = ManageFileUtil.read_file_csv('reits-today.csv', encoding='ISO-8859-1')
 
     # order funds by DY Greater to Smaller
     # order funds by PRICE_MARKET Smaller to Greater
@@ -30,4 +30,4 @@ def best_funds():
     # to PRICE_QUOTA_EQUITY or until 10% Greater PRICE_QUOTA_EQUITY
     funds = funds.loc[funds['PREULT'] < funds['PRICE_QUOTA_EQUITY']]
     funds.reset_index(drop=True, inplace=True)
-    ManageCSVFileUtil.data_frame_to_csv('xpto.csv', funds)
+    ManageFileUtil.data_frame_to_csv('xpto.csv', funds)

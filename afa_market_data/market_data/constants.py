@@ -20,3 +20,5 @@ FII_CVM_DOCS_LIST = 'abrirGerenciadorDocumentosCVM?cnpjFundo={}'
 
 FII_CVM_CAD_URL = 'http://dados.cvm.gov.br/dados/FIE/CAD/DADOS/'
 
+BMF_SERIES_HIST_YEAR = 'http://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_A2019.ZIP'
+
