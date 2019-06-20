@@ -1,8 +1,8 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from afa_market_data.market_data import ManagerREIT, reit_custom, ManageFileUtil, ReadPagesUtil, FII_CVM_CAD_URL, \
-    BMF_SERIES_HIST_YEAR
+from afa_market_data.market_data import ManagerREIT, reit_custom, ManageFileUtil, ReadPagesUtil, collect_all_cia_info
+from afa_market_data.market_data import FII_CVM_CAD_URL, BMF_SERIES_HIST_YEAR, CIA_CVM_CAD_URL
 
 file_name = 'COTAHIST_A2019.TXT'
 
@@ -20,19 +20,24 @@ class MarketData:
             None
         """
         # FII information
-        last_cvs_file = ReadPagesUtil.load_table_FI_cadastre(FII_CVM_CAD_URL)
+        #-> last_cvs_file = ReadPagesUtil.load_table_fi_cadastre(FII_CVM_CAD_URL)
+
         # for the latest row download url + column name
         # CSV file is downloaded and if valid file swap with actual inf_cadastral_fie.csv
-        ManageFileUtil.download_file(FII_CVM_CAD_URL + last_cvs_file, 'inf_cadastral_fie.csv')
+        #-> ManageFileUtil.download_file(FII_CVM_CAD_URL + last_cvs_file, 'inf_cadastral_fie.csv')
 
         # trader information
-        ManageFileUtil.download_file(BMF_SERIES_HIST_YEAR, 'file.zip')
+        #-> ManageFileUtil.download_file(BMF_SERIES_HIST_YEAR, 'file.zip')
 
         # if contains file_name in folder
         # rename to old
-        ManageFileUtil.unzip_file('file.zip')
+        #-> ManageFileUtil.unzip_file('file.zip')
         # if contains file_name in folder
         # delete file_name old and zip file
+
+        # CIA information
+        last_cvs_file = ReadPagesUtil.load_table_cia_cadastre(CIA_CVM_CAD_URL)
+        ManageFileUtil.download_file(CIA_CVM_CAD_URL + last_cvs_file, 'inf_cadastral_cia_aberta.csv')
 
     @staticmethod
     def update_reit_cad_information():
@@ -52,6 +57,9 @@ class MarketData:
     def run_reits_custom_analisys():
         reit_custom.best_funds()
 
+    @staticmethod
+    def update_cia_cad_information():
+        collect_all_cia_info()
 
 if __name__ == '__main__':
     print(datetime.now())
@@ -60,16 +68,15 @@ if __name__ == '__main__':
         MarketData.download_files_daily()
 
         # monthly
-        #MarketData.update_reit_cad_information()
+        # MarketData.update_reit_cad_information()
 
         # sempre que for avaliar os fundos
-        MarketData.update_reit_last_daily_price()
-        MarketData.run_reits_custom_analisys()
+        # MarketData.update_reit_last_daily_price()
+        # MarketData.run_reits_custom_analisys()
 
         ''' Stock market '''
-        # update list of CIA opened from CMV
-
         # load basic info for each CIA from BMF (CNPJ, Ticker, ¿list of dividends?)
+        MarketData.update_cia_cad_information()
 
         # update with historic market values
 

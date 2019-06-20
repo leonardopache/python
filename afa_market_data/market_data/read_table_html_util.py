@@ -103,7 +103,7 @@ class ReadPagesUtil:
 
 
     @staticmethod
-    def load_table_FI_cadastre(url):
+    def load_table_fi_cadastre(url):
         """
             Download csv Inf. Cad. FIE;
             scraping table with pandas
@@ -115,6 +115,20 @@ class ReadPagesUtil:
         """
         data_frame = pd.read_html(url, header=0, encoding="utf-8", keep_default_na=False, parse_dates=[2])[0]
         return data_frame.loc[data_frame['Last modified'].idxmax()]['Name']
+
+
+    @staticmethod
+    def load_table_cia_cadastre(url):
+        """
+            Download csv Inf. Cad. CIA;
+            scraping table with pandas data_frame
+        :param
+            url:
+        :return:
+            Name of last file updated
+        """
+        data_frame = pd.read_html(url, header=0, encoding="utf-8", keep_default_na=False)[0]
+        return data_frame['Name'][2]
 
 #if __name__ == '__main__':
     # data = {'key1' : ['t1', 't2', 't3'], 'key2':['a1', 'a2', 'a3']}
