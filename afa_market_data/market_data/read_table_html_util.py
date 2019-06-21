@@ -6,29 +6,33 @@ import bs4 as bs
 import requests
 from .constants import TESOURO_DIRETO_TITULO_TAX, \
     FII_BMF_URL_BASE, FII_BMF_LIST_ALL, FII_BMF_EVENTS_TAB, \
-    YAHOO_FINANCE_TICKER_HISTORY, FII_CVM_BASE, FII_CVM_DOCS_LIST
+    YAHOO_FINANCE_TICKER_HISTORY, FII_CVM_BASE, FII_CVM_DOCS_LIST, \
+    BMF_CIA_INF_BASE_URL, BMF_CIA_TAB_RESUME
 
 def do_request(url):
     try:
         return requests.get(url)
     except Exception as err:
-        #print(err)
         return False
+
 
 def read_html(url):
     try:
         return pd.read_html(url, header=None, encoding="utf-8", keep_default_na=False)
     except Exception as err:
-        #print(err)
         return False
 
 
 class ReadPagesUtil:
 
-    # for specific site a specific method to load table and return
-    # only the necessary information. Take care to avoid many page loads
     @staticmethod
     def load_table_TD():
+        """
+            for specific site a specific method to load table and return
+            only the necessary information. Take care to avoid many page loads
+            :return:
+            json
+        """
         data_frame = pd.read_html(TESOURO_DIRETO_TITULO_TAX, header=0, encoding="utf-8")[3]
         return data_frame.dropna().to_json(orient='records', date_format='iso', force_ascii=False )
 
@@ -41,10 +45,14 @@ class ReadPagesUtil:
         data_frame.columns = ['RAZAO_SOCIAL', 'CODIGO']
         return data_frame
 
-    #load informations like codigo de negociacao (stock),CNPJ
-    #load informations like isin, DY, dividend date, dividend value
     @staticmethod
     def load_fund_detail(cod):
+        """
+            load informations like codigo de negociacao (stock),CNPJ
+            load informations like isin, DY, dividend date, dividend value
+        :param cod:
+        :return data_frame:
+        """
         data_frame = pd.read_html(FII_BMF_URL_BASE+FII_BMF_EVENTS_TAB.format(cod),
                     header=0, encoding='utf-8', keep_default_na=False)
         return data_frame
@@ -61,7 +69,6 @@ class ReadPagesUtil:
             # nothing for now
             #print(list_tables)
         return value
-
 
     @staticmethod
     def load_html_page_all_docs(cnpj):
@@ -101,7 +108,6 @@ class ReadPagesUtil:
 
         return data_frame
 
-
     @staticmethod
     def load_table_fi_cadastre(url):
         """
@@ -116,7 +122,6 @@ class ReadPagesUtil:
         data_frame = pd.read_html(url, header=0, encoding="utf-8", keep_default_na=False, parse_dates=[2])[0]
         return data_frame.loc[data_frame['Last modified'].idxmax()]['Name']
 
-
     @staticmethod
     def load_table_cia_cadastre(url):
         """
@@ -129,6 +134,14 @@ class ReadPagesUtil:
         """
         data_frame = pd.read_html(url, header=0, encoding="utf-8", keep_default_na=False)[0]
         return data_frame['Name'][2]
+
+    @staticmethod
+    def load_bmf_cia_tab_resume(cod_cvm):
+        try:
+            data = pd.read_html((BMF_CIA_INF_BASE_URL + BMF_CIA_TAB_RESUME).format(cod_cvm), header=0, encoding="utf-8")
+            return data
+        except:
+            return []
 
 #if __name__ == '__main__':
     # data = {'key1' : ['t1', 't2', 't3'], 'key2':['a1', 'a2', 'a3']}

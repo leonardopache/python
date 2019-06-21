@@ -45,7 +45,7 @@ class MarketData:
             Execute monthly function to generate new file with information of Real Estate Funds
         :return:
         """
-        ManagerREIT.collect_all_REIT_info()
+        ManagerREIT.collect_all_reit_info()
 
     # function to update daily information from REIT's
     @staticmethod
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     print(datetime.now())
     try:
         # todos os dias uteis depois das 7
-        MarketData.download_files_daily()
+        # MarketData.download_files_daily()
 
         # monthly
         # MarketData.update_reit_cad_information()
