@@ -16,7 +16,7 @@ class SeriesInterpreter():
         self.shares['DATA'].append(datetime.date(int(line[2:6]), int(line[6:8]), int(line[8:10])))
         self.shares['CODBDI'].append(line[10:12])
         self.shares['CODNEG'].append(str(line[12:24]).strip())
-        self.shares['TIPMERC'].append(line[24:27])
+        self.shares['TPMERC'].append(line[24:27])
         self.shares['NOMRES'].append(line[27:39])
         self.shares['ESPECI'].append(line[39:49])
         self.shares['PRAZOT'].append(line[49:52])
@@ -58,7 +58,8 @@ class SeriesInterpreter():
         return self.data_frame
 
     def get_historic_isin_df(self, isin):
-        return self.data_frame[self.data_frame['CODISI'] == isin][['CODISI', 'PREULT', 'VOLTOT', 'CODNEG', 'DATA']]
+        return self.data_frame[self.data_frame['CODISI'] == isin][['CODISI', 'PREULT', 'VOLTOT', 'CODNEG', 'CODBDI',
+                                                                   'TPMERC', 'DATA']]
 
     def get_daily_value(self, isin):
         value = self.data_frame[self.data_frame['CODISI'] == isin].PREULT
@@ -83,12 +84,12 @@ class SeriesInterpreter():
 
     def __init__(self, path_file):
         self.shares = {'TIPREG': [], 'DATA': [],
-        'CODBDI': [], 'CODNEG': [], 'TIPMERC': [], 'NOMRES': [],
-        'ESPECI': [], 'PRAZOT': [], 'MODREF': [],  'PREABE': [],
-        'PREMAX': [], 'PREMIN': [], 'PREMED': [],  'PREULT': [],
-        'PREOFC': [], 'PREOFV': [], 'TOTNEG': [],  'QUATOT': [],
-        'VOLTOT': [], 'PREEXE': [], 'INDOPC': [],  'DATVEN': [],
-        'FATCOT': [], 'PTOEXE': [], 'CODISI': [],  'DISMES': []}
+        'CODBDI': [], 'CODNEG': [], 'TPMERC': [], 'NOMRES': [],
+        'ESPECI': [], 'PRAZOT': [], 'MODREF': [], 'PREABE': [],
+        'PREMAX': [], 'PREMIN': [], 'PREMED': [], 'PREULT': [],
+        'PREOFC': [], 'PREOFV': [], 'TOTNEG': [], 'QUATOT': [],
+        'VOLTOT': [], 'PREEXE': [], 'INDOPC': [], 'DATVEN': [],
+        'FATCOT': [], 'PTOEXE': [], 'CODISI': [], 'DISMES': []}
 
         self.data_frame = self.read_file_path(path_file)
 

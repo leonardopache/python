@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from afa_market_data.market_data import ManagerREIT, reit_custom, ManageFileUtil, ReadPagesUtil, collect_all_cia_info
+from afa_market_data.market_data import ManagerREIT, reit_custom, ManageFileUtil, ReadPagesUtil, collect_all_cia_info, collect_cia_daily_stock
 from afa_market_data.market_data import FII_CVM_CAD_URL, BMF_SERIES_HIST_YEAR, CIA_CVM_CAD_URL
 
 file_name = 'COTAHIST_A2019.TXT'
@@ -61,6 +61,11 @@ class MarketData:
     def update_cia_cad_information():
         collect_all_cia_info()
 
+    @staticmethod
+    def update_cia_last_daily_price():
+        collect_cia_daily_stock(file_name)
+
+
 if __name__ == '__main__':
     print(datetime.now())
     try:
@@ -76,10 +81,10 @@ if __name__ == '__main__':
 
         ''' Stock market '''
         # load basic info for each CIA from BMF (CNPJ, Ticker, ¿list of dividends?)
-        MarketData.update_cia_cad_information()
+        #MarketData.update_cia_cad_information()
 
         # update with historic market values
-
+        MarketData.update_cia_last_daily_price()
 
         # send cvs to google drive
         print(datetime.now())

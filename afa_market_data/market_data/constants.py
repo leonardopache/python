@@ -24,4 +24,7 @@ BMF_SERIES_HIST_YEAR = BMF_URL_BASE+'InstDados/SerHist/COTAHIST_A2019.ZIP'
 BMF_CIA_INF_BASE_URL = BMF_URL_BASE+'cias-Listadas/Empresas-Listadas/'
 BMF_CIA_TAB_RESUME = 'ResumoEmpresaPrincipal.aspx?codigoCvm={}&idioma=pt-br'
 
+BMF_RESUME = 'http://bvmf.bmfbovespa.com.br/pt-br/mercados/acoes/empresas/ExecutaAcaoConsultaInfoEmp.asp?CodCVM={}'
+BMF_HIST_EARNINGS = 'http://bvmf.bmfbovespa.com.br/cias-Listadas/Empresas-Listadas/ResumoProventosDinheiro.aspx?codigoCvm={}'
+
 CIA_CVM_CAD_URL = 'http://dados.cvm.gov.br/dados/CIA_ABERTA/CAD/DADOS/'

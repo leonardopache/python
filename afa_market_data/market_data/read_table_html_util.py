@@ -7,7 +7,7 @@ import requests
 from .constants import TESOURO_DIRETO_TITULO_TAX, \
     FII_BMF_URL_BASE, FII_BMF_LIST_ALL, FII_BMF_EVENTS_TAB, \
     YAHOO_FINANCE_TICKER_HISTORY, FII_CVM_BASE, FII_CVM_DOCS_LIST, \
-    BMF_CIA_INF_BASE_URL, BMF_CIA_TAB_RESUME
+    BMF_CIA_INF_BASE_URL, BMF_CIA_TAB_RESUME, BMF_RESUME
 
 def do_request(url):
     try:
@@ -138,7 +138,7 @@ class ReadPagesUtil:
     @staticmethod
     def load_bmf_cia_tab_resume(cod_cvm):
         try:
-            data = pd.read_html((BMF_CIA_INF_BASE_URL + BMF_CIA_TAB_RESUME).format(cod_cvm), header=0, encoding="utf-8")
+            data = pd.read_html(BMF_RESUME.format(cod_cvm), header=0, encoding="utf-8")
             return data
         except:
             return []
