@@ -20,18 +20,18 @@ class MarketData:
             None
         """
         # FII information
-        #-> last_cvs_file = ReadPagesUtil.load_table_fi_cadastre(FII_CVM_CAD_URL)
+        last_cvs_file = ReadPagesUtil.load_table_fi_cadastre(FII_CVM_CAD_URL)
 
         # for the latest row download url + column name
         # CSV file is downloaded and if valid file swap with actual inf_cadastral_fie.csv
-        #-> ManageFileUtil.download_file(FII_CVM_CAD_URL + last_cvs_file, 'inf_cadastral_fie.csv')
+        ManageFileUtil.download_file(FII_CVM_CAD_URL + last_cvs_file, 'inf_cadastral_fie.csv')
 
         # trader information
-        #-> ManageFileUtil.download_file(BMF_SERIES_HIST_YEAR, 'file.zip')
+        ManageFileUtil.download_file(BMF_SERIES_HIST_YEAR, 'file.zip')
 
         # if contains file_name in folder
         # rename to old
-        #-> ManageFileUtil.unzip_file('file.zip')
+        ManageFileUtil.unzip_file('file.zip')
         # if contains file_name in folder
         # delete file_name old and zip file
 
@@ -70,18 +70,18 @@ if __name__ == '__main__':
     print(datetime.now())
     try:
         # todos os dias uteis depois das 7
-        # MarketData.download_files_daily()
+        MarketData.download_files_daily()
 
         # monthly
         # MarketData.update_reit_cad_information()
 
         # sempre que for avaliar os fundos
-        # MarketData.update_reit_last_daily_price()
-        # MarketData.run_reits_custom_analisys()
+        MarketData.update_reit_last_daily_price()
+        MarketData.run_reits_custom_analisys()
 
         ''' Stock market '''
         # load basic info for each CIA from BMF (CNPJ, Ticker, ¿list of dividends?)
-        #MarketData.update_cia_cad_information()
+        MarketData.update_cia_cad_information()
 
         # update with historic market values
         MarketData.update_cia_last_daily_price()

@@ -13,19 +13,14 @@ from .manage_threads import prepare_df_to_threading, create_threads
 
 cia_df = pd.DataFrame(data=None)
 
-
 def update_cia_from_bmf(cia_cad_df, pbar):
     data1 = {'COMPANY_ID': [], 'EQUITY': [], 'TICKER': [],
             'QUOTA': [], 'DY_LAST': []}
     data2 = {'COMPANY_ID': [], 'ISIN': []}
-    global cia_df
-    cont = 0
     for index, row in cia_cad_df.iterrows():
-        #cont += 1
 
         tables_tab_resume = ReadPagesUtil.load_bmf_cia_tab_resume(row['CD_CVM'])
         if tables_tab_resume:
-
             # cria df com isins e cnpj
             for isin in [tables_tab_resume[0].values[0][1][m.start():m.start() + 12] for m in
                                  re.finditer('[A-z0-9]{10,12}', tables_tab_resume[0].values[0][1])]:
@@ -38,14 +33,11 @@ def update_cia_from_bmf(cia_cad_df, pbar):
             data1['TICKER'].append('')
             data1['QUOTA'].append('')
             data1['DY_LAST'].append('')
-
-            #print(data2)
-            #f cont > 10:
-            #    break
         pbar.update(1)
     # TODO- VERIFY CONCURRENCY DURING ACCESS AND WRITE BY THE THREADS
     df_ = pd.merge(pd.DataFrame(data1), pd.DataFrame(data2), how='inner', left_on='COMPANY_ID', right_on='COMPANY_ID')
-    cia_df = cia_df.append(pd.DataFrame(df_))
+    global cia_df
+    cia_df = cia_df.append(pd.DataFrame(df_), sort=True)
 
 
 def collect_all_cia_info():
@@ -61,7 +53,8 @@ def collect_all_cia_info():
                                               encoding='ISO-8859-1')
 
     cia_cad_df = cia_cad_df.loc[cia_cad_df['SIT'] == 'ATIVO']
-    splited_df = prepare_df_to_threading(4, cia_cad_df)
+    # cia_cad_df = cia_cad_df.loc[cia_cad_df['SIT_EMISSOR'] == 'FASE_OPERACIONAL']
+    splited_df = prepare_df_to_threading(5, cia_cad_df)
 
     with tqdm(range(len(cia_cad_df))) as pbar:
         pbar.set_description("Processing CIA's")
@@ -71,7 +64,7 @@ def collect_all_cia_info():
             t.start()
         for t in threads:
             t.join()
-
+    global cia_df
     df_ = pd.merge(cia_cad_df, cia_df, how='inner', left_on='CNPJ_CIA', right_on='COMPANY_ID')
     ManageFileUtil.data_frame_to_csv('cias_cad.csv', df_, 'ISO-8859-1')
 
@@ -92,7 +85,7 @@ def collect_cia_daily_stock(file_name):
 
     for index, row in cias.iterrows():
         historic_isin_df = series.get_historic_isin_df(row['ISIN'])
-        historic_df = historic_df.append(historic_isin_df)
+        historic_df = historic_df.append(historic_isin_df, sort=True)
 
     cias = pd.merge(cias, historic_df, how='inner', left_on='ISIN', right_on='CODISI')
 
