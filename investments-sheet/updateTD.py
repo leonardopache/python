@@ -37,5 +37,5 @@ if __name__ == '__main__':
     worksheet = gs.worksheet("Dashboard")
     #print(tdJson)
     update(dataToUpdate(gs), json.loads(valuesToUpdate()), worksheet)
-    aux = worksheet.acell('H6').value
+    aux = worksheet.acell('H11').value
     print(aux)
