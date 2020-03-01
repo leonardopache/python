@@ -21,3 +21,4 @@ class Trader():
         self.number = number
         self.value_unit = value_unit
         self.value_total = value_total
+

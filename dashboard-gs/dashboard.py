@@ -1,20 +1,16 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-from .trader import Trader
+from trader import Trader
+from cei_integration.load_information import load_information
+from g_sheet_integration import update_dashboard
 
 
 if __name__ == '__main__':
-    print("welcome to dashboard manager")
-    print("Chose the options")
-    print("1 - Upload values from CEI")
+    # connect to CEI
+    # 1099 - INTER DTVM LTDA
+    df_traders = load_information(1099)
 
-    value = int(input())
-    if value == 1:
-        # connect to CEI
-        # 1099 - INTER DTVM LTDA
-        # 5927703
-        df_traders = cei.load_information(1099, 5927703)
-        # connect to GSheet
-
-        #
+    # connect to GSheet
+    update_dashboard.update_sheet(df_traders)
+    print('Finish ###################')
 
