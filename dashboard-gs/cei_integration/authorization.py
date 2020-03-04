@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 import requests
+import urllib3
 from bs4 import BeautifulSoup
 
 from constants import LOGIN
@@ -25,6 +26,7 @@ class Authorization:
 
     def login(self):
         with requests.Session() as s:
+            urllib3.disable_warnings()
             s.verify = False
             result = s.get(LOGIN, headers=self.header)
             soup = BeautifulSoup(result.content, 'html5lib')

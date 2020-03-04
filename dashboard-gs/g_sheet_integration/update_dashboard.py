@@ -51,3 +51,4 @@ def update_sheet(df_trades):
                               item.number,
                               item.value_unit,
                               item.value_total])
+    print('######## {} rows updated ########'.format(df_trades.shape[0]))

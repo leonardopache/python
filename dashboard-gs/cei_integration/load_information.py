@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
+import os
 import pandas as pd
 from bs4 import BeautifulSoup
 from constants import TRADE_REPORT, LOGOUT
@@ -7,9 +8,10 @@ from cei_integration.authorization import Authorization
 
 
 def load_information(broker):
+    print('######## Loading CEI report ########')
     # get authorization
     #TODO remove password and login to env variable
-    session = Authorization('', '').login()
+    session = Authorization(os.environ['CEI_USER'], os.environ['CEI_PWD']).login()
 
     # open report
     neg_get = session.get(TRADE_REPORT)
@@ -58,5 +60,6 @@ def load_information(broker):
     df = pd.read_html(str(tables), header=None, encoding="utf-8", keep_default_na=False, decimal=',', thousands='.')[0]
     df.drop(df.tail(1).index, inplace=True)
     session.get(LOGOUT)
+    print('######## {} trades found ########'.format(df.shape[0]))
     return df
 
