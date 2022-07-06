@@ -1,4 +1,4 @@
-lxml==4.6.2
+lxml==4.9.1
 pandas==0.24.1
 html5lib==1.0.1
 beautifulsoup4==4.7.1
